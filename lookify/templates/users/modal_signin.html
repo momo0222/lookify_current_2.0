@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form class="mt-4" hx-post="{{request.path}}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+    {% csrf_token %}
+    <div class="form-floating mb-3">
+        {{form.username}}
+        <label for="pxp-signin-email">Email address</label>
+        <span class="fa fa-envelope-o"></span>
+    </div>
+    <div class="form-floating mb-3">
+        {{form.password}}
+        <label for="pxp-signin-password">Password</label>
+        <span class="fa fa-lock"></span>
+    </div>
+    <div class="form-floating mb-3">
+        {{ form.remember_me}}
+        <label for="pxp-signin-page-email">Remember Me</label>
+    </div>
+    <a href="#" class="btn rounded-pill pxp-modal-cta">Continue</a>
+    <div class="mt-4 text-center pxp-modal-small">
+        <a href="#" class="pxp-modal-link">Forgot password</a>
+    </div>
+    <div class="mt-4 text-center pxp-modal-small">
+        New to Jobster? <a role="button" class="" data-bs-target="#pxp-signup-modal" data-bs-toggle="modal" data-bs-dismiss="modal">Create an account</a>
+    </div>
+</form>
+{% endblock%}

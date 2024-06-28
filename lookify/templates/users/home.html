@@ -1,0 +1,177 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block title %} Home Page {% endblock title%}
+{% block content %}
+
+
+<section class="pxp-hero pxp-hero-boxed">
+    <div class="pxp-container">
+        <div class="pxp-hero-boxed-content" style="background-color: var(--pxpMainColorLight);">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-12 col-xl-6 col-xxl-5">
+                    <h1>Find the perfect<br><span style="color: var(--pxpMainColor);">look</span> for you</h1>
+                    <div class="pxp-hero-subtitle mt-3 mt-lg-4">Search your next opportunity <strong>{{ num}}</strong> looks</div>
+
+                    <div class="pxp-hero-form pxp-hero-form-round pxp-bigger mt-3 mt-lg-4">
+                        <form class="row gx-3 align-items-center" action="{% url 'opportunity-home' %}">
+                            <div class="col-12 col-md">
+                                <div class="form-floating">
+    <p type="text" class="form-control" id="pxpHeroFormKeyword">
+    <label for="pxpHeroFormKeyword">Discover what's waiting for you...</label>
+</div>
+
+                            </div>
+                            <div class="col-12 col-md-auto">
+                                <button>Find Looks</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+                <div class="d-none d-xl-block col-xl-4 col-xxl-5 position-relative">
+                    <div class="pxp-hero-boxed-circulars pxp-animate-circles-bounce">
+                        <div class="pxp-hero-boxed-circular-outer">
+                            <div class="pxp-hero-boxed-circular-outer-1"></div>
+                            <div class="pxp-hero-boxed-circular-outer-2"></div>
+                            <div class="pxp-hero-boxed-circular-outer-3"></div>
+                        </div>
+                        <div class="pxp-hero-boxed-circular-middle">
+                            <div class="pxp-hero-boxed-circular-middle-1"></div>
+                            <div class="pxp-hero-boxed-circular-middle-2"></div>
+                            <div class="pxp-hero-boxed-circular-middle-3"></div>
+                        </div>
+                        <div class="pxp-hero-boxed-circular-center"></div>
+                    </div>
+
+                    <div class="pxp-hero-boxed-icon-circles">
+                        <div class="pxp-hero-boxed-icon-circle-1 pxp-animate-icon-circle-bounce" style="background-color: #002745;"> <i class="fa fa-search" style="font-size:48px;color:#e6f0f9;text-align: center"></i>
+                        </div>
+                        <div class="pxp-hero-boxed-icon-circle-2 pxp-animate-icon-circle-bounce" style="background-color: #002745; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+    <h2 style="font-weight: bold; color: #e6f0f9; text-align: center;">Discover Yourself</h2>
+</div>
+
+
+
+                    <div class="pxp-hero-boxed-info-cards">
+                        <div class="pxp-hero-boxed-info-card-big pxp-animate-info-card">
+                            <div class="pxp-hero-boxed-info-card-big-content">
+                                <div class="pxp-hero-boxed-info-card-big-icon">
+                                    <img src="/static//static/images/service-2-icon.png" alt="Job Fit Scoring">
+                                </div>
+                                <div class="pxp-hero-boxed-info-card-big-title">Job Fit Scoring</div>
+                                <div class="pxp-hero-boxed-info-card-big-text pxp-text-light">Search your career opportunity through 12,800 jobs</div>
+                            </div>
+                        </div>
+                        <div class="pxp-hero-boxed-info-card-small pxp-animate-info-card">
+                            <div class="pxp-hero-boxed-info-card-small-content">
+                                <div class="pxp-hero-boxed-info-card-small-icon">
+                                    <img src="/static//static/images/service-1-icon.png" alt="Full-service recruiting">
+                                </div>
+                                <div class="pxp-hero-boxed-info-card-small-title">Full-service recruiting</div>
+                            </div>
+                        </div>
+                        <div class="pxp-hero-boxed-info-list-container pxp-animate-info-card">
+                            <div class="pxp-hero-boxed-info-list">
+                                <div class="pxp-hero-boxed-info-list-item">
+                                    <div class="pxp-hero-boxed-info-list-item-number">286<span>job offers</span></div>
+                                    <div class="pxp-hero-boxed-info-list-item-description">in Business Development</div>
+                                </div>
+                                <div class="pxp-hero-boxed-info-list-item">
+                                    <div class="pxp-hero-boxed-info-list-item-number">154<span>job offers</span></div>
+                                    <div class="pxp-hero-boxed-info-list-item-description">in Marketing & Communication</div>
+                                </div>
+                                <div class="pxp-hero-boxed-info-list-item">
+                                    <div class="pxp-hero-boxed-info-list-item-number">319<span>job offers</span></div>
+                                    <div class="pxp-hero-boxed-info-list-item-description">in Human Resources</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-100">
+    <div class="pxp-container">
+        <h2 class="pxp-section-h2">Featured Looks</h2>
+        <p class="pxp-text-light">Find what's next for you through our most popular looks</p>
+
+        <div class="row mt-4 mt-md-5 pxp-animate-in pxp-animate-in-top">
+            {% for look in featured %}
+            <div class="col-md-6 col-xl-4 col-xxl-3 pxp-jobs-card-1-container">
+                <div class="pxp-jobs-card-1 pxp-has-border">
+                    <div class="pxp-jobs-card-1-top">
+                        <a href="{% url 'post-detail' pk=look.pk%}" class="pxp-jobs-card-1-category">
+                            <div class="pxp-jobs-card-1-category-icon"><span class="fa fa-bullhorn"></span></div>
+                            <div class="pxp-jobs-card-1-category-label">{{look.get_category_display}}</div>
+                        </a>
+                        <a href="{% url 'post-detail' pk=look.pk%}" class="pxp-jobs-card-1-title">{{look.title}}</a>
+                        <div class="pxp-jobs-card-1-details">
+                            <a href="{% url 'post-detail' pk=look.pk%}" class="pxp-jobs-card-1-location">
+                                <span class="fa fa-globe"></span>{{look.location}}
+                            </a>
+                            {% comment %} <div class="pxp-jobs-card-1-type">Full-time</div> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="pxp-jobs-card-1-bottom">
+                        <div class="pxp-jobs-card-1-bottom-left">
+                            <div class="pxp-jobs-card-1-date pxp-text-light">{{look.pub_date|timesince}} ago by</div>
+                            <a href="{% url 'profile-view' username=look.user.username %}" class="pxp-jobs-card-1-company">{{look.user.username}}</a>
+                        </div>
+                        <a href="{% url 'profile-view' username=look.user.username %}" class="pxp-jobs-card-1-company-logo" style="background-image: url({{look.avatar.url}});"></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+        <div class="mt-4 mt-md-5 pxp-animate-in pxp-animate-in-top">
+            <a href="{% url 'opportunity-home' %}" class="btn rounded-pill pxp-section-cta">All Opportunities<span class="fa fa-angle-right"></span></a>
+        </div>
+    </div>
+</section>
+<section class="mt-100">
+    <div class="pxp-container">
+        <h2 class="pxp-section-h2">Featured Organizations</h2>
+        <p class="pxp-text-light">Find your next opportunity with numerous great organizations</p>
+
+        <div class="row mt-4 mt-md-5 pxp-animate-in pxp-animate-in-top">
+            {% for org in orgs %}
+            <div class="col-md-6 col-xl-4 col-xxl-3 pxp-jobs-card-1-container">
+                <div class="pxp-jobs-card-1 pxp-has-border">
+                    <div class="pxp-jobs-card-1-top">
+                        <a href="{% url 'profile-view' username=org.user.username%}" class="pxp-jobs-card-1-category">
+                            <div class="pxp-jobs-card-1-category-icon"><span class="fa fa-bullhorn"></span></div>
+                            <div class="pxp-jobs-card-1-category-label">{{org.domain}}</div>
+                        </a>
+                        <a href="{% url 'profile-view' username=org.user.username%}" class="pxp-jobs-card-1-title">{{org.organization_name}}</a>
+                        <div class="pxp-jobs-card-1-details">
+                            <a href="{% url 'profile-view' username=org.user.username%}" class="pxp-jobs-card-1-location">
+                                <span class="fa fa-globe"></span>{{org.full_address}}
+                            </a>
+                            {% comment %} <div class="pxp-jobs-card-1-type">Full-time</div> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="pxp-jobs-card-1-bottom">
+                        <div class="pxp-jobs-card-1-bottom-left">
+                            <div class="pxp-jobs-card-1-date pxp-text-light">{{org.about|truncate_words:30 }}</div>
+                            <a href="{% url 'profile-view' username=org.user.username %}" class="pxp-jobs-card-1-company">{{org.opportunity_count}} Opportunities</a>
+                        </div>
+                        <a href="{% url 'profile-view' username=org.user.username %}" class="pxp-jobs-card-1-company-logo" style="background-image: url({{org.avatar.url}});"></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+        <div class="mt-4 mt-md-5 pxp-animate-in pxp-animate-in-top">
+            <a href="{% url 'opportunity-home' %}" class="btn rounded-pill pxp-section-cta">All Organizations<span class="fa fa-angle-right"></span></a>
+        </div>
+    </div>
+</section>
+{% endblock content %}

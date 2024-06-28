@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Apply{% endblock %}
+{% block content %}
+<style>
+    .contact-info-container {
+        max-height: 2.6em; /* Adjust the value to fit your design */
+        overflow: hidden;
+    }
+</style>
+
+<body style="background-color: #b3deff;">
+<section class="pxp-hero pxp-hero-boxed">
+    <div class="pxp-container">
+            <div class="row align-items-center justify-content-between">
+
+            </div>
+        </div>
+
+
+<center><div class="pxp-dashboard-chart-container col-md-6 card shadow">
+ <h2><strong>Apply to {{opp.title}}</strong></h2>
+    <h7 class="card-title text-center"><strong>*You cannot delete your response after submitting.</strong>
+    <br/> <strong>**You're response will not be saved.</strong></h7>
+                     <br/>
+
+
+
+                        <center>
+<form method="post" action="{% url 'apply' pk=opp.pk %}" class="row g-3">
+    {% csrf_token %}
+    <br/>
+        <h7 class="contact-info-container">
+    Write down the best point of contact (Email and/or Phone Number)
+</h7>
+
+
+{{ form.application_contact }}
+
+
+    <div class="col-md-6" ></div>
+        <h7 class="card-title text-center">Within 500 words describe any experiences and skills<br/>that deem you a suitable candidate for this job.</h7>
+
+        {{ form.application_text }}
+
+<div>
+    <br/>
+    <div class="col-12">
+        <button type="submit" class="btn ms-4 rounded-pill pxp-section-cta">Submit</button>
+        <a href="{% url 'post-detail' pk=opp.id %}" class="btn ms-4 rounded-pill pxp-section-cta" style="background-color: #001d33">Go Back</a>
+    </div>
+    </div>
+</form>
+                            </div>
+
+
+                    </center>
+
+                </div>
+    </center>
+
+
+
+
+    </section>
+<div>
+
+</div>
+</body>
+
+{% endblock content %}

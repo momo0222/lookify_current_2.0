@@ -1,0 +1,184 @@
+{% extends 'dashboard/indv-dashboard_base.html' %}
+{% block title %}Manage Applications {% endblock %}
+{% block content %}
+<div class="pxp-dashboard-content-details">
+    <h1>Applications for {{opp.title}}</h1>
+    <p class="pxp-text-light">Here you can review potential candidates for your position and reach out to them via the contact information they provide. </p>
+
+    <div class="mt-4 mt-lg-5">
+        <div class="row justify-content-between align-content-center">
+            <div class="col-auto order-2 order-sm-1">
+                <div class="pxp-company-dashboard-jobs-bulk-actions mb-3">
+                    <button class="btn">Delete</button>
+                </div>
+            </div>
+            <div class="col-auto order-1 order-sm-2">
+                <div class="pxp-company-dashboard-jobs-search mb-3">
+                    {% if opp.num_applications == 1%}
+                    <div class="pxp-company-dashboard-jobs-search-results me-3"> {{opp.num_applications}} application</div>
+                    {% else %}
+                    <div class="pxp-company-dashboard-jobs-search-results me-3"> {{opp.num_applications}} applications</div>
+                    {% endif %}
+                    <div class="pxp-company-dashboard-jobs-search-search-form">
+                        <div class="input-group">
+                            <span class="input-group-text"><span class="fa fa-search"></span></span>
+                            <input type="text" class="form-control" placeholder="Search jobs...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th class="pxp-is-checkbox" style="width: 1%;"><input type="checkbox" class="form-check-input"></th>
+                        <th colspan="2" style="width: 20%;">Name</th>
+                        <th style="width: 15%;">Grade</th>
+                        <th style="width: 15%;">Status</th>
+                        <th style="width: 20%;">Date</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in apps %}
+                    <tr>
+                        <td><input type="checkbox" class="form-check-input"></td>
+                        <td style="width: 3%;">
+                            <div class="pxp-company-dashboard-candidate-avatar pxp-cover" style="background-image: url(images/ph-small.jpg);"></div>
+                        </td>
+                        <td>
+                            <a href="{% url 'profile-view' username=app.sender.username %}">
+                                <div class="pxp-company-dashboard-job-title">{{app.sender}}</div>
+                            </a>
+                        </td>
+                        <td><div class="pxp-company-dashboard-job-category">
+                            {% if app.sender.grade == none %}
+                            Not Available
+                            {% else %}
+                            {{app.sender.grade}}
+                            {% endif %}
+                        </div>
+                        </td>
+                        <td><div class="pxp-company-dashboard-job-status">
+                        {% if app.get_status_display == "Pending" %}
+                            <span class="badge rounded-pill bg-secondary">
+                                {{app.get_status_display}}
+                            </span>
+                        {% elif app.get_status_display == "Accepted" %}
+                        <span class="badge rounded-pill bg-success">
+                            {{app.get_status_display}}
+                        </span>
+                        {% elif app.get_status_display == "Rejected" %}
+                        <span class="badge rounded-pill bg-danger">
+                            {{app.get_status_display}}
+                        </span>
+                        {% endif %}
+                        </div></td>
+                        <td>
+                            <div class="pxp-company-dashboard-job-date">{{app.send_date}}</div>
+                        </td>
+                        <td>
+                            <div class="pxp-dashboard-table-options">
+                                <ul class="list-unstyled">
+                                    <li><button type="button" data-bs-toggle="modal" data-bs-target="#application_info" data-app-text="{{ app.text }}" title="View profile"><span class="fa fa-eye"></span></button></li>
+                                    <li><button title="Send message" type="button" data-bs-toggle="modal" data-bs-target="#contact_info" data-app-text="{{ app.contact }}"><span class="fa fa-envelope-o"></span></button></li>
+                                    <li>
+                                        <form method="POST" action="{% url 'accept-app' pk=app.pk %}"> 
+                                            {% csrf_token %}
+                                        <button title="Approve" onclick="return confirm('Are you sure?')" ><span class="fa fa-check"></span></button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form method="POST" action="{% url 'deny-app' pk=app.pk %}"> 
+                                            {% csrf_token %}
+                                        <button title="Reject" onclick="return confirm('Are you sure?')" ><span class="fa fa-ban"></span></button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+
+            <div class="row mt-4 mt-lg-5 justify-content-between align-items-center">
+                <div class="col-auto">
+                    <nav class="mt-3 mt-sm-0" aria-label="Jobs list pagination">
+                        <ul class="pagination pxp-pagination">
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">1</span>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-auto">
+                    <a href="#" class="btn rounded-pill pxp-section-cta mt-3 mt-sm-0">Show me more<span class="fa fa-angle-right"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="application_info" tabindex="-1" aria-labelledby="application_info-modal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+          <br/><br/>
+        <div class="modal-header text-center">
+          <h1 class="modal-title fs-3 mx-auto" id="exampleModalLabel">Application Response</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <span id="app-text"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="contact_info" tabindex="-1" aria-labelledby="contact-info-modal" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <br/><br/>
+        <div class="modal-header text-center">
+          <h1 class="modal-title fs-3 mx-auto" id="exampleModalLabel">Contact Information</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+            <span id="app-text"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content%}
+{% block js %}
+
+$('#application_info').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var modal = $(this);
+
+    modal.find('#app-text').text(button.data('app-text'));
+    
+});
+
+$('#contact_info').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var modal = $(this);
+    
+    modal.find('#app-text').text(button.data('app-text'));
+    
+});
+
+{% endblock %}
+            

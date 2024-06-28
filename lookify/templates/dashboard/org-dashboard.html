@@ -1,0 +1,40 @@
+{% extends 'dashboard/org-dashboard_base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="pxp-dashboard-content-details">
+<h1>Dashboard</h1>
+<p class="pxp-text-light">Welcome {{ user }}!</p>
+<div class="row mt-4 mt-lg-5 align-items-center">
+    <!-- Edit Profile Section -->
+    <div class="col-sm-6 col-xxl-3">
+        <div class="pxp-dashboard-stats-card bg-success bg-opacity-10 mb-3 mb-xxl-0">
+            <div class="pxp-dashboard-stats-card-icon text-success">
+                <a href="{% url 'update-org-profile' %}" class="text-primary">
+                    <span class="fa fa-user-circle-o"></span>
+                </a>
+            </div>
+            <div class="pxp-dashboard-stats-card-info">
+                <div class="pxp-dashboard-stats-card-info-number">Edit Profile</div>
+                <div class="pxp-dashboard-stats-card-info-text pxp-text-light"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Inbox Section -->
+    <div class="col-sm-6 col-xxl-3">
+        <div class="pxp-dashboard-stats-card bg-primary bg-opacity-10 mb-3 mb-xxl-0">
+            <div class="pxp-dashboard-stats-card-icon text-primary">
+                <a href="{% url 'inbox' %}" class="text-primary">
+                    <span class="fa fa-envelope-o"></span>
+                </a>
+            </div>
+            <div class="pxp-dashboard-stats-card-info">
+                <div class="pxp-dashboard-stats-card-info-number">Inbox</div>
+                <div class="pxp-dashboard-stats-card-info-text pxp-text-light"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock content %}
+
+       

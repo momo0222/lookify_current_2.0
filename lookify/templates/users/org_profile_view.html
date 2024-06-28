@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %} Organization Profile {% endblock %}
+{% block content %}
+        <section>
+            <div class="pxp-container">
+                <div class="pxp-single-company-container pxp-has-columns">
+                    <div class="row">
+                        <div class="col-lg-7 col-xl-8 col-xxl-9">
+                            <div class="pxp-single-company-hero pxp-cover pxp-boxed" style="background-image: url({{ org.background.url }});">
+                                <div class="pxp-hero-opacity"></div>
+                                <div class="pxp-single-company-hero-caption">
+                                    <div class="pxp-container">
+                                        <div class="pxp-single-company-hero-content">
+                                            <div class="pxp-single-company-hero-logo" style="background-image: url({{ org.avatar.url}});"></div>
+                                            <div class="pxp-single-company-hero-title">
+                                                <h1>{{org.organization_name}}</h1>
+                                                <div class="pxp-single-company-hero-location"><span class="fa fa-globe"></span>{{org.full_address}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <section class="mt-4 mt-lg-5">
+                                <div class="pxp-single-company-content">
+                                    <h2>About {{org.organization_name}}</h2>
+                                    <p>{{org.about}}</p>
+                                    
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-5 col-xl-4 col-xxl-3">
+                            <div class="pxp-single-company-side-panel mt-5 mt-lg-0">
+                                <div class="mt-4">
+                                    <div class="pxp-single-company-side-info-label pxp-text-light">Focus</div>
+                                    <div class="pxp-single-company-side-info-data">{{org.domain}}</div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="pxp-single-company-side-info-label pxp-text-light">Phone</div>
+                                    <div class="pxp-single-company-side-info-data">{{org.phone}}</div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="pxp-single-company-side-info-label pxp-text-light">Email</div>
+                                    <div class="pxp-single-company-side-info-data">{{org.email}}</div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="pxp-single-company-side-info-label pxp-text-light">Location</div>
+                                    <div class="pxp-single-company-side-info-data">{{org.full_address}}</div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="pxp-single-company-side-info-label pxp-text-light">Website</div>
+                                    <div class="pxp-single-company-side-info-data"><a href="{{org.website}}" target="_blank">{{org.website}}</a></div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="pxp-single-company-side-info-data">
+                                        <ul class="list-unstyled pxp-single-company-side-info-social">
+                                            <li><a href="#"><span class="fa fa-facebook"></span></a></li>
+                                            <li><a href="#"><span class="fa fa-twitter"></span></a></li>
+                                            <li><a href="#"><span class="fa fa-instagram"></span></a></li>
+                                            <li><a href="#"><span class="fa fa-linkedin"></span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <p> </p>
+                            {% if org.user != request.user%}
+                            <div class="pxp-single-company-side-panel mt-4 mt-lg-5">
+                                <h3>Contact {{org.user.organizationprofile.organization_name}}</h3>
+                                <form class="mt-4" method="POST" action="{% url "submit_message" receiver=user %}">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="contact-candidate-email" class="form-label" >Email</label>
+                                        <input type="text" class="form-control" id="contact-candidate-email" name="email" placeholder="Enter your email address">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contact-candidate-message" class="form-label">Message</label>
+                                        <textarea class="form-control" id="contact-candidate-message" name="message" placeholder="Type your message here..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn rounded-pill pxp-section-cta d-block">Send Message</button>
+                                </form>
+                            </div>
+                            {% else %}
+                            <div class="pxp-single-company-side-panel mt-4 mt-lg-5">
+                                <h3>Check your <a href="{% url 'inbox' %}">inbox</a> for messages</h3>
+                                
+                            </div>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-100">
+            <div class="pxp-container">
+                <h2 class="pxp-subsection-h2">Available Opportunities</h2>
+                <p class="pxp-text-light">Opportunities list posted by {{org.organization_name}}</p>
+
+                <div class="row mt-3 mt-md-4 pxp-animate-in pxp-animate-in-top pxp-in">
+                    {% for post in posts %}
+                    <div class="col-xl-6 pxp-jobs-card-2-container">
+                        <div class="pxp-jobs-card-2 pxp-has-border">
+                            <div class="pxp-jobs-card-2-top">
+                                <a href="{% url 'post-detail' pk=post.pk %}" class="pxp-jobs-card-2-company-logo" style="background-image: url({{post.background.url}});"></a>
+                                <div class="pxp-jobs-card-2-info">
+                                    <a href="{% url 'post-detail' pk=post.pk %}" class="pxp-jobs-card-2-title">{{post.title}}</a>
+                                    <div class="pxp-jobs-card-2-details">
+                                        <a href="{% url 'post-detail' pk=post.pk %}" class="pxp-jobs-card-2-location">
+                                            <span class="fa fa-globe"></span>{{post.location}}
+                                        </a>
+                                        <div class="pxp-jobs-card-2-type">{{post.get_length_display}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pxp-jobs-card-2-bottom">
+                                
+                                    <div class="pxp-jobs-card-2-category-label">{{post.get_category_display}}</div>
+                                
+                                <div class="pxp-jobs-card-2-bottom-right">
+                                    <span class="pxp-jobs-card-2-date pxp-text-light">{{post.pub_date|timesince}} ago by</span> <a href="{% url 'profile-view' username=post.user.username %}" class="pxp-jobs-card-2-company">{{org.organization_name}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                    
+            </div>
+        </section>
+
+{% endblock %}

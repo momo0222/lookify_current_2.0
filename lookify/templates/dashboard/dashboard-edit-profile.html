@@ -1,0 +1,150 @@
+{% extends 'dashboard/indv-dashboard_base.html' %}
+{% block title %}Edit Profile {% endblock %}
+{% block content %}
+
+            <div class="pxp-dashboard-content-details">
+                <div class="form-group">
+    <a href="{% url 'exp-manager' %}" class="btn rounded-pill pxp-section-cta">Manage Experiences</a>&nbsp;&nbsp;
+    <a href="{% url 'edu-manager' %}" class="btn rounded-pill pxp-section-cta">Manage Education</a>
+</div>
+
+                <br/>
+
+                <h1>Edit Profile</h1>
+                <p class="pxp-text-light">Edit your candidate profile page info.</p>
+
+
+       <form enctype="multipart/form-data" class="container" method="post" id="product_form">
+                    {% csrf_token %}
+                   
+                    
+                    <div class="row mt-4 mt-lg-5">
+                        <div class="col-xxl-8">
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label for="pxp-candidate-title" class="form-label">{{form.grade.label}}</label>
+                                        <input type="text" id="pxp-candidate-title" class="form-control" placeholder="E.g. 10th grade" name = "grade"value="{{form.grade.value}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label for="pxp-candidate-location" class="form-label">School</label>
+                                        <input type="tel" id="pxp-candidate-location" class="form-control" placeholder="E.g. Mogwarts" name = "school" value="{{form.school.value}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label for="pxp-candidate-email" class="form-label">Email</label>
+                                        <input type="email" id="pxp-candidate-email" class="form-control" placeholder="candidate@email.com" name="email" value="{{ form.email.value }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label for="pxp-candidate-phone" class="form-label">Phone</label>
+                                        <input type="tel" id="pxp-candidate-phone" class="form-control" placeholder="(+12) 345 6789" name="phone" value="{{ form.phone.value }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-4">
+                <div class="form-label">&nbsp;</div>
+                <div class="pxp-candidate-cover mb-3">
+                    <a href="{{request.user.profile.background.url}}" target="_blank"> Current Cover Image </a>
+                    <input type="file" id="pxp-candidate-cover-choose-file" name="background" accept="image/*">
+                    <label for="pxp-candidate-cover-choose-file" class="pxp-cover"><span>Upload Cover Image</span></label>
+                </div>
+                <div class="pxp-candidate-photo mb-3">
+                    <a href="{{request.user.profile.avatar.url}}" target="_blank"> Current Profile</a>
+                    <input type="file" id="pxp-candidate-photo-choose-file" name="avatar" accept="image/*">
+                    <label for="pxp-candidate-photo-choose-file" class="pxp-cover"><span>Upload<br>Profile Image</span></label>
+                </div>
+            </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pxp-candidate-about" class="form-label">About you</label>
+                        <textarea class="form-control" id="pxp-candidate-about" placeholder="Type your info here..." name="bio">{{form.bio.value}}</textarea>
+                    </div>
+
+                    <div class="mt-4 mt-lg-5">
+                        <h2>Skills</h2>
+
+                        <div class="input-group mb-3">
+                            <div class="mb-3">
+                                <input type="text" data-role="tagsinput" class="form-control" name="skills" value="{% if form.skills.value %}{{ form.skills.value|join:', ' }}{% else %}{{ '' }}{% endif %}">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- inline form for Images start -->
+
+                    <!-- EXPLAINING with named_formsets.images as formset -->
+                    <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                    <!-- Note: here images is our ImageFormSet name, used in get_named_formsets function in views.py -->
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn rounded-pill pxp-section-cta">Submit</button>
+                        </div>
+                </form>
+
+                    <!-- inline form for Images start -->
+
+                    <!-- EXPLAINING with named_formsets.images as formset -->
+                    <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                    <!-- Note: here images is our ImageFormSet name, used in get_named_formsets function in views.py -->
+
+
+
+
+                </form>
+
+
+
+    </div>
+</div>
+
+
+
+            </div>
+
+{% endblock %}
+
+{% block js %}
+
+$(document).ready(function() {
+    // Initialize tagsinput
+    $('input[data-role="tagsinput"]').tagsinput();
+});
+
+$(document).ready(function() {
+    // when user clicks add more btn of variants
+      $('.add-experiences').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-experiences').children().length;
+          var tmplMarkup = $('#experiences-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-experiences').append(compiledTmpl);
+
+          // update form count
+          $('#id_experiences-TOTAL_FORMS').attr('value', count+1);
+      });
+  });
+$(document).ready(function() {
+// when user clicks add more btn of variants
+    $('.add-educations').click(function(ev) {
+        ev.preventDefault();
+        var count = $('#item-educations').children().length;
+        var tmplMarkup = $('#educations-template').html();
+        var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+        $('#item-educations').append(compiledTmpl);
+
+        // update form count
+        $('#id_educations-TOTAL_FORMS').attr('value', count+1);
+    });
+});
+{% endblock %}

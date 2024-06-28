@@ -1,0 +1,104 @@
+{% extends 'dashboard/indv-dashboard_base.html' %}
+{% block title %} Create Look {% endblock title %}
+{% block content %}
+<div class="pxp-dashboard-content-details">
+    <h1>Manage Education</h1>
+    <br/>
+
+<div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th class="pxp-is-checkbox" style="width: 1%;"><input type="checkbox" class="form-check-input"></th>
+                        <th style="width: 16%;">Look</th>
+                        <th style="width: 16%;">Location</th>
+                        <th style="width: 45%;">Description</th>
+                        <th style="width: 16%;">Length</th>
+                        <th style="width: 7%">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+    {% for edu in page_number %}
+    {% if edu.user == request.user %}
+        <tr>
+            <td><input type="checkbox" class="form-check-input"></td>
+            <td>
+                <a href="{% url 'post-detail' pk=edu.pk %}">
+                    <div class="pxp-company-dashboard-jon-title">{{ edu.title }}</div>
+                    <div class="pxp-company-dashboard-job-location"><span class="fa fa-globe me-1"></span></div>
+                </a>
+            </td>
+            <td><div class="pxp-company-dashboard-job-category">{{ edu.location }}</div></td>
+            <td><div class="pxp-company-dashboard-job-category">{{ edu.description }}</div></td>
+            <td><div class="pxp-company-dashboard-job-type">{{ edu.length }}</div></td>
+            <td>
+                <div class="pxp-dashboard-table-options">
+                    <ul class="list-unstyled">
+                        <form method='POST' action="{% url 'delete-edu' pk=edu.pk %}">
+            {% csrf_token %}
+            <li><button onclick="return confirm('Are you sure?')" title="Delete"><span class="fa fa-trash-o"></span></button></li>
+        </form>
+                    </ul>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    {% endif %}
+{% endfor %}
+</tbody>
+            </table>
+
+
+       </div>
+<br/> <br/>
+<h4><strong>Add Education<strong/></h4>
+    <hr class="default">
+
+    <form method="POST" action="{% url 'create-edu'%}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row mt-4 mt-lg-5">
+            <div class="col-xxl-6">
+                <div class="mb-3">
+                    <label for="pxp-company-job-title" class="form-label">Position title</label>
+                    <input type="text" id="pxp-company-job-title" class="form-control" name="title" placeholder="Add title">
+                </div>
+
+            </div>
+            <div class="col-md-6 col-xxl-3">
+                <label for="pxp-company-job-location" class="form-label">Location</label>
+                <input type="text" id="pxp-company-job-location" class="form-control" name="location" placeholder="E.g. San Francisco, CA">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="pxp-company-job-description" class="form-label">Look description</label>
+            <textarea class="form-control" id="pxp-company-job-description" name="description" placeholder="Type the description here..."></textarea>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6 col-xxl-4">
+                <div class="mb-3">
+                    <label for="pxp-company-job-length" class="form-label">Length</label>
+                     <input type="text" class="form-control" id="pxp-company-job-description" name="length" placeholder="2020-2024"></input>
+                </div>
+            </div>
+
+             <div class="mt-4 mt-lg-5">
+    <button id="redirectButton" class="btn rounded-pill pxp-section-cta">Post</button>
+</div>
+        <script>
+    document.getElementById("redirectButton").addEventListener("click", function() {
+        window.location.href = "{% url 'edu-manager' %}";
+    });
+</script>
+
+    </form>
+
+
+
+</div>
+
+{% endblock %}

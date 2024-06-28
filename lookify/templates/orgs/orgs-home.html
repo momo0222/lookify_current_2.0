@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block title %} Search Organizations {% endblock title %}
+{% block content %}
+<section class="pxp-page-header-simple" style="background-color: var(--pxpSecondaryColor);">
+    <div class="pxp-container">
+        <h1>Search Organizations</h1>
+        <div class="pxp-hero-subtitle pxp-text-light">Find opportunities with your favorite organizations</div>
+        <div class="pxp-hero-form pxp-hero-form-round pxp-large mt-3 mt-lg-4">
+            <form method="GET" class="row gx-3 align-items-center">
+                <div class="col-12 col-lg">
+                    
+                    <div class="input-group mb-3 mb-lg-0">
+                        <span class="input-group-text"><span class="fa fa-search"></span></span>
+                        <input type="text" class="form-control" name='search' placeholder="Company Name or Keyword">
+                    </div>
+               
+                </div>
+            
+                <div class="col-12 col-lg-auto">
+                    <button type="submit">Find Companies</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="mt-100">
+    <div class="pxp-container">
+        <div class="pxp-companies-list-top">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-auto">
+                    <h2><span class="pxp-text-light">Showing</span> {{orgs.count}} <span class="pxp-text-light">organizations</span></h2>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="row">
+            {% for org in page_number %}
+            <div class="col-md-6 col-xl-4 col-xxl-3 pxp-companies-card-1-container">
+                <div class="pxp-companies-card-1 pxp-has-border">
+                    <div class="pxp-companies-card-1-top">
+                        <a href="{% url 'profile-view' username=org.username %}" class="pxp-companies-card-1-company-logo" style="background-image: url({{org.organizationprofile.avatar.url}});"></a>
+                        <a href="{% url 'profile-view' username=org.username %}" class="pxp-companies-card-1-company-name">{{org.organizationprofile.organization_name}}</a>
+                        <div class="pxp-companies-card-1-company-description pxp-text-light">{{org.organizationprofile.about|truncate_words:50 }}</div>
+                    </div>
+                    <div class="pxp-companies-card-1-bottom">
+                        <a href="{% url 'profile-view' username=org.username %}" class="pxp-companies-card-1-company-jobs">{{ org.opportunity_count }} opportunities</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+            
+        <div class="row mt-4 mt-lg-5 justify-content-between align-items-center">
+            <div class="col-auto">
+                <nav class="mt-3 mt-sm-0" aria-label="Companies pagination">
+                    <ul class="pagination pxp-pagination">
+                        {% if page_number.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_number.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                            <li class="page-item active"><a class="page-link" >{{ page_number.number }}</a></li>
+                        {% if page_number.has_next %}
+                            <li class="page-item">
+                            <a class="page-link" href="?page={{ page_number.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-auto">
+                <a href="#" class="btn rounded-pill pxp-section-cta mt-3 mt-sm-0">Show me more<span class="fa fa-angle-right"></span></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+ {% endblock content %}      

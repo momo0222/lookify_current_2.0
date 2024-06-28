@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Opportunity Manager {% endblock title %}
+{% block content %}
+<section class="pxp-page-header-simple" style="background-color: var(--pxpMainColorLight);">
+    <div class="pxp-container">
+        <h1 class="text-center">Your Opportunities</h1>
+        <div class="pxp-hero-subtitle pxp-text-light text-center"> Have an offer? Share it. </div>
+    </div>
+</section>
+<section>
+    <div class="pxp-jobs-card-3">
+        <div class="list-group" id="search-results">
+    {% for post in posts %}
+  <a href={% url 'post-detail' pk=post.id%} class="list-group-item list-group-item-action flex-column align-items-start ">
+      <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{post.title}}</h5>
+      <small>Posted {{post.pub_date|timesince}} ago</small>
+      </div>
+      <p class="mb-1">{{post.description}}</p>
+      {% for tag in post.tags.all %}
+      <small class="mr-1 badge badge-info" >{{tag}}</small>
+      
+      {% endfor %}
+  </a>
+  {% endfor %}
+</div>
+    </section>
+{% endblock content %}

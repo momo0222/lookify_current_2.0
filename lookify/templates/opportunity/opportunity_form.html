@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %} Create Opportunity {% endblock title %}
+{% block content %}
+<section class="pxp-page-header-simple" style="background-color: var(--pxpMainColorLight);">
+    <div class="pxp-container">
+        <h1 class="text-center">Post an Look</h1>
+        <div class="pxp-hero-subtitle pxp-text-light text-center"> Have an offer? Share it. </div>
+    </div>
+</section>
+        <div class="container pt-5">
+            <form method="POST" action={% url 'create-opp'%} enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="form-control" name="title" placeholder="Add title">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea type="text" class="form-control" name="description" placeholder="Add description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" class="form-control" name="location" placeholder="Add description"></input>
+                </div>
+                <div class="form-group">
+                    <label>Tags</label>
+                    <input type="text" data-role="tagsinput" class="form-control" name="tags">
+                </div>
+                <div class="form-group">
+                    <label>Responsibilities</label>
+                    <textarea type="text" class="form-control" name="responsibilities" placeholder="Add description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select type="text" class="form-select" name="category" placeholder="Add description">
+                        {% for choice in form.category.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.category.value %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Length</label>
+                    <select type="text" class="form-select" name="length" placeholder="Add description">
+                        {% for length in form.length.field.choices %}
+                            <option value="{{ length.0 }}" {% if length.0 == form.length.value %}selected{% endif %}>{{ length.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Grade Level</label>
+                    <input type="text" class="form-control" name="grade" placeholder="Add description"></input>
+                </div>
+            <br/>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>    
+{% endblock content %}        

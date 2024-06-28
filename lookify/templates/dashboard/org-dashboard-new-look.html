@@ -1,0 +1,76 @@
+{% extends 'dashboard/org-dashboard_base.html' %}
+{% block title %} Create Look {% endblock title %}
+{% block content %}
+<div class="pxp-dashboard-content-details">
+    <h1>New Look</h1>
+    <p class="pxp-text-light">Create new opportunities!</p>
+   
+    <form method="POST" action={% url 'create-opp'%} enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row mt-4 mt-lg-5">
+            <div class="col-xxl-6">
+                <div class="mb-3">
+                    <label for="pxp-company-job-title" class="form-label">Look title</label>
+                    <input type="text" id="pxp-company-job-title" class="form-control" name="title" placeholder="Add title">
+                </div>
+                <div class="mb-3">
+                    <label for="pxp-company-job-category" class="form-label">Category</label>
+                    <select id="pxp-company-job-category" name="category" class="form-select">
+                        {% for choice in form.category.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.category.value %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6 col-xxl-3">
+                <label for="pxp-company-job-location" class="form-label">Location</label>
+                <input type="text" id="pxp-company-job-location" class="form-control" name="location" placeholder="E.g. San Francisco, CA">
+            </div>
+            <div class="col-md-6 col-xxl-3">
+                <label for="pxp-background" class="form-label">Background</label>
+                <input type="file" id="pxp-background" class="form-control" name="background" >
+            </div> 
+        </div>
+
+        <div class="mb-3">
+            <label for="pxp-company-job-description" class="form-label">Look description</label>
+            <textarea class="form-control" id="pxp-company-job-description" name="description" placeholder="Type the description here..."></textarea>
+        </div>
+
+            
+        <div class="mb-3">
+            <label>Tags</label>
+            <input type="text" data-role="tagsinput" class="form-control" name="tags">
+        </div>
+        
+        <div class="mb-3">
+            <label for="pxp-company-job-description" class="form-label">Look Responsibilities</label>
+            <textarea class="form-control" id="pxp-company-job-description" name="responsibilities" placeholder="Type the responsibilities here, separate each responsibility with a #"></textarea>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-xxl-4">
+                <div class="mb-3">
+                    <label for="pxp-company-job-level" class="form-label">Grade level</label>
+                    <input type="text" id="pxp-company-job-experience" name="grade" class="form-control" placeholder="E.g. 9th Grade">
+                </div>
+            </div>
+            <div class="col-md-6 col-xxl-4">
+                <div class="mb-3">
+                    <label for="pxp-company-job-type" class="form-label">Length</label>
+                    <select id="pxp-company-job-type" name="length" class="form-select">
+                        {% for length in form.length.field.choices %}
+                            <option value="{{ length.0 }}" {% if length.0 == form.length.value %}selected{% endif %}>{{ length.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="mt-4 mt-lg-5">
+            <button type = "submit" class="btn rounded-pill pxp-section-cta">Post a Look</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

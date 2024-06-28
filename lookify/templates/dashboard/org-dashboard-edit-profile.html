@@ -1,0 +1,121 @@
+{% extends 'dashboard/org-dashboard_base.html' %}
+{% block title %}Edit Org Profile{% endblock %}
+{% block content %}
+<div class="pxp-dashboard-content-details">
+    <h1>Edit Profile</h1>
+    <p class="pxp-text-light">Edit your candidate profile page info.</p>
+
+
+<form enctype="multipart/form-data" class="container" method="post" id="product_form">
+        {% csrf_token %}
+       
+        
+        <div class="row mt-4 mt-lg-5">
+            <div class="col-xxl-8">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label for="pxp-candidate-title" class="form-label">Organization Name</label>
+                            <input type="text" id="pxp-candidate-title" class="form-control" placeholder="E.g. Lookify" name = "organization_name"value="{{form.organization_name.value}}">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label for="pxp-candidate-location" class="form-label">Focus</label>
+                            <input type="text" id="pxp-candidate-location" class="form-control" placeholder="E.g. Education" name = "domain" value="{{form.domain.value}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label for="pxp-candidate-email" class="form-label">Email</label>
+                            <input type="email" id="pxp-candidate-email" class="form-control" placeholder="candidate@email.com" name="email" value="{{ form.email.value }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label for="pxp-candidate-phone" class="form-label">Phone</label>
+                            <input type="tel" id="pxp-candidate-phone" class="form-control" placeholder="(+12) 345 6789" name="phone" value="{{ form.phone.value }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label for="pxp-candidate-title" class="form-label">Website Link</label>
+                            <input type="text" id="pxp-candidate-location" class="form-control" placeholder="Enter a valid URL" name = "website" value="{{form.website.value}}">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label for="pxp-candidate-location" class="form-label">Location</label>
+                            <input type="text" id="pxp-candidate-location" class="form-control" placeholder="E.g. New York, NY" name = "full_address" value="{{form.full_address.value}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-4">
+    <div class="form-label">&nbsp;</div>
+    <div class="pxp-candidate-cover mb-3">
+        <a href="{{request.user.organizationprofile.background.url}}" target="_blank"> Current Background </a>
+        <input type="file" id="pxp-candidate-cover-choose-file" name="background" accept="image/*">
+        <label for="pxp-candidate-cover-choose-file" class="pxp-cover"><span>Upload Cover Image</span></label>
+    </div>
+    <div class="pxp-candidate-photo mb-3">
+        <a href="{{request.user.organizationprofile.avatar.url}}" target="_blank"> Current Profile</a>
+        <input type="file" id="pxp-candidate-photo-choose-file" name="avatar" accept="image/*">
+        <label for="pxp-candidate-photo-choose-file" class="pxp-cover"><span>Upload<br>Profile Image</span></label>
+    </div>
+</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="pxp-candidate-about" class="form-label">About this Organization</label>
+            <textarea class="form-control" id="pxp-candidate-about" placeholder="Type your info here..." name="about">{{form.about.value}}</textarea>
+        </div>
+
+        <div class="mt-4 mt-lg-5">
+            <h2>Keywords</h2>
+
+            <div class="input-group mb-3">
+                <div class="mb-3">
+                    <input type="text" data-role="tagsinput" class="form-control" name="keywords" value="{% if form.keywords.value %}{{ form.keywords.value|join:', ' }}{% else %}{{ '' }}{% endif %}">
+
+                </div>
+            </div>
+        </div>
+        <!-- inline form for Images start -->
+
+        <!-- EXPLAINING with named_formsets.images as formset -->
+        <!-- Note: named_formsets is used in get_context_data function in views.py -->
+        <!-- Note: here images is our ImageFormSet name, used in get_named_formsets function in views.py -->
+
+
+            <div class="form-group">
+                <button type="submit" class="btn rounded-pill pxp-section-cta">Submit</button>
+            </div>
+    </form>
+
+        <!-- inline form for Images start -->
+
+        <!-- EXPLAINING with named_formsets.images as formset -->
+        <!-- Note: named_formsets is used in get_context_data function in views.py -->
+        <!-- Note: here images is our ImageFormSet name, used in get_named_formsets function in views.py -->
+
+
+
+
+    </form>
+
+
+
+</div>
+</div>
+
+
+
+</div>
+{% endblock %}
+

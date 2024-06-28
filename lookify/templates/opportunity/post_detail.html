@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% block title %}Post Details {% endblock title %}
+{% block content %}
+        <section >
+            <div class="pxp-container" >
+                <div class="pxp-single-job-cover pxp-cover" style="background-image: url({{opportunity.background.url}});"></div>
+                {% if opportunity.user.user_type == 'individual' %}
+                <div class="pxp-single-job-cover-logo" style="background-image: url({{opportunity.user.profile.avatar.url}});"></div>
+                {% else %}
+                <div class="pxp-single-job-cover-logo" style="background-image: url({{opportunity.user.organizationprofile.avatar.url}});"></div>
+                {% endif %}
+                <div class="pxp-single-job-content mt-4 mt-lg-5">
+                    <div class="row">
+                        <div class="col-lg-7 col-xl-8 col-xxl-9">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-xl-8 col-xxl-6">
+                                    <h1>{{ opportunity.title }}</h1>
+                                    <div class="pxp-single-job-company-location">
+                                        in
+                                        <a href="jobs-list-1.html" class="pxp-single-job-location">{{ opportunity.location }}</a>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="pxp-single-job-options mt-4 col-xl-0">
+                                        <div class="dropdown ms-2">
+                                        {% if opportunity.user != request.user %}
+                                        </div>
+                                        <a href = "{% url 'apply' pk=opportunity.pk %}" class="btn ms-4 rounded-pill pxp-section-cta">Apply Now</a>
+                                    </div>
+                                    {% endif %}
+                                    {% if opportunity.user == request.user %}
+                                        </div>
+                                        <a href = "{% url 'manage-application-list' pk=opportunity.pk %}" class="btn ms-4 rounded-pill pxp-section-cta">See Applications</a>
+                            <a href="{% url 'delete-opportunity' pk=opportunity.id %}" class="btn ms-4 rounded-pill pxp-section-cta" style="background-color: #001d33">Delete</a>
+
+                            </div>
+
+
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row mt-4 justify-content-between align-items-center">
+                                <div class="col-6">
+                                    <a href="jobs-list-1.html" class="pxp-single-job-category">
+                                        <div class="pxp-single-job-category-icon"><span class="fa fa-bullhorn"></span></div>
+                                        <div class="pxp-single-job-category-label">{{opportunity.get_category_display}}</div>
+                                    </a>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="pxp-single-job-date pxp-text-light">{{ opportunity.pub_date|timesince}} ago</div>
+                                </div>
+                            </div>
+
+
+                            <div class="pxp-single-job-content-details mt-4 mt-lg-5">
+                                <h4>Overview</h4>
+                                <p>{{opportunity.description}}</p>
+                                <div class="mt-4">
+                                    <h4>Responsibilities</h4>
+                                    <ul>
+                                        {% for resp in resps %}
+                                        <li>{{resp}}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="mt-4">
+                                    <h4>Tags</h4>
+                                    <div class="pxp-hero-searches-items">
+                                        {% for tag in opportunity.tags.all %}
+                                            <a href = "#" class="fw-bold">{{tag}}</a>
+                                        {% endfor %}
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-xl-4 col-xxl-3">
+                            <div class="pxp-single-job-side-panel mt-5 mt-lg-0">
+                                <div>
+                                    <div class="pxp-single-job-side-info-label pxp-text-light">Category</div>
+                                    <div class="pxp-single-job-side-info-data">{{opportunity.get_category_display}}</div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="pxp-single-job-side-info-label pxp-text-light">Grade Level</div>
+                                    <div class="pxp-single-job-side-info-data">{{opportunity.grade}}</div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="pxp-single-job-side-info-label pxp-text-light">Length</div>
+                                    <div class="pxp-single-job-side-info-data">{{opportunity.get_length_display}}</div>
+                                </div>
+                            </div>
+                            <div class="mt-3 mt-lg-4 pxp-single-job-side-panel">
+                                
+                                {% if opportunity.user.user_type == 'organization' %}
+                                <div class="pxp-single-job-side-company">
+                                    <div class="pxp-single-job-side-company-logo pxp-cover" style="background-image: url({{opportunity.user.organizationprofile.avatar.url}});"></div>
+                                    <div class="pxp-single-job-side-company-profile">
+                                        <div class="pxp-single-job-side-company-name">{{opportunity.user.username}}</div>
+                                        <a href = "{% url 'profile-view' username=opportunity.user.username %}">View profile</a>
+                                    </div>
+                                </div>
+                                    <div class="mt-4">
+                                        <div class="pxp-single-job-side-info-label pxp-text-light">Organization</div>
+                                        <div class="pxp-single-job-side-info-data">{{opportunity.user.organizationprofile.organization_name}}</div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <div class="pxp-single-job-side-info-label pxp-text-light">Email</div>
+                                        <div class="pxp-single-job-side-info-data">{{opportunity.user.email}}</div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <div class="pxp-single-job-side-info-label pxp-text-light">Website</div>
+                                        <div class="pxp-single-job-side-info-data"><a href="{{opportunity.user.organizationprofile.website}}" target="_blank">{{opportunity.user.organizationprofile.website}}</a></div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <div class="pxp-single-job-side-info-data">
+                                            <ul class="list-unstyled pxp-single-job-side-info-social">
+                                                <li><a href="#"><span class="fa fa-facebook"></span></a></li>
+                                                <li><a href="#"><span class="fa fa-twitter"></span></a></li>
+                                                <li><a href="#"><span class="fa fa-instagram"></span></a></li>
+                                                <li><a href="#"><span class="fa fa-linkedin"></span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="pxp-single-job-side-company-logo pxp-cover" style="background-image: url({{opportunity.user.profile.avatar.url}});"></div>
+                                    <div class="pxp-single-job-side-company">
+                                        <div class="pxp-single-job-side-company-logo pxp-cover" style="background-image: url({{opportunity.user.profile.avatar.url}});"></div>
+                                        <div class="pxp-single-job-side-company-profile">
+                                            <div class="pxp-single-job-side-company-name">{{opportunity.user.username}}</div>
+                                            <a href = "{% url 'profile-view' username=opportunity.user.username %}">View profile</a>
+                                        </div>
+                                    </div>
+                                        <div class="mt-4">
+                                            <div class="pxp-single-job-side-info-label pxp-text-light">Grade</div>
+                                            <div class="pxp-single-job-side-info-data">{{opportunity.user.profile.grade}}</div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <div class="pxp-single-job-side-info-label pxp-text-light">Email</div>
+                                            <div class="pxp-single-job-side-info-data">{{opportunity.user.email}}</div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <div class="pxp-single-job-side-info-label pxp-text-light">School</div>
+                                            <div class="pxp-single-job-side-info-data">{{opportunity.user.profile.school}}</div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <div class="pxp-single-job-side-info-data">
+                                                <ul class="list-unstyled pxp-single-job-side-info-social">
+                                                    <li><a href="#"><span class="fa fa-facebook"></span></a></li>
+                                                    <li><a href="#"><span class="fa fa-twitter"></span></a></li>
+                                                    <li><a href="#"><span class="fa fa-instagram"></span></a></li>
+                                                    <li><a href="#"><span class="fa fa-linkedin"></span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+        
+                                    
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-100">
+            <div class="pxp-container">
+                <h2 class="pxp-subsection-h2">Related Jobs</h2>
+                <p class="pxp-text-light">Other similar jobs that might interest you</p>
+
+                <div class="row mt-3 mt-md-4 pxp-animate-in pxp-animate-in-top pxp-in">
+                    {% for r in related %}
+                    <div class="col-xl-6 pxp-jobs-card-2-container">
+                        <div class="pxp-jobs-card-2 pxp-has-border">
+                            <div class="pxp-jobs-card-2-top">
+                                <a href="{% url 'post-detail' pk=r.pk%}" class="pxp-jobs-card-2-company-logo" style="background-image: url({{r.background.url}});"></a>
+                                <div class="pxp-jobs-card-2-info">
+                                    <a href="{% url 'post-detail' pk=r.pk%}" class="pxp-jobs-card-2-title">{{r.title}}</a>
+                                    <div class="pxp-jobs-card-2-details">
+                                        <a class="pxp-jobs-card-2-location">
+                                            <span class="fa fa-globe"></span>{{r.location}}
+                                        </a>
+                                        <div class="pxp-jobs-card-2-type">{{r.get_length_display}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pxp-jobs-card-2-bottom">
+                                <a class="pxp-jobs-card-2-category">
+                                    <div class="pxp-jobs-card-2-category-label">{{r.get_category_display}}</div>
+                                </a>
+                                <div class="pxp-jobs-card-2-bottom-right">
+                                    <span class="pxp-jobs-card-2-date pxp-text-light">{{r.pub_date|timesince}} ago by</span> <a href="{% url 'profile-view' username=r.user.username%}" class="pxp-jobs-card-2-company">{{r.user.username}}</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+{% endblock %}
+
+
+

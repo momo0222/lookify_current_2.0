@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block title %} Individual Profile {% endblock %}
+{% block content %}
+        <section>
+            <div class="pxp-container">
+                <div class="pxp-single-candidate-container pxp-has-columns">
+                    <div class="row">
+                        <div class="col-lg-7 col-xl-8 col-xxl-9">
+   <div class="pxp-single-candidate-hero pxp-cover pxp-boxed" style="background-image: url({{ user.profile.background.url }});">
+    <div class="pxp-hero-opacity"></div>
+    <div class="pxp-single-candidate-hero-caption">
+        <div class="pxp-container">
+            <div class="pxp-single-candidate-hero-content">
+                 <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }} Avatar" class="pxp-single-candidate-hero-avatar">
+                <div class="pxp-single-candidate-hero-name">
+                    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                    <div class="pxp-single-candidate-hero-title">{{ user.profile.grade }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+                            <section class="mt-4 mt-lg-5">
+                                <div class="pxp-single-candidate-content">
+                                    <h2>About {{user.first_name}}</h2>
+                                    <p>{{user.profile.bio}}</p>
+
+
+                                    <div class="mt-4 mt-lg-5">
+                                        <h2>Skills</h2>
+                                        <div class="pxp-single-candidate-skills">
+                                            <ul class="list-unstyled">
+                                                {% for skill in user.profile.skills.all %}
+                                                <li>{{skill}}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 mt-lg-5">
+                                        <h2>Work Experience</h2>
+                                        <div class="pxp-single-candidate-timeline">
+                                           {% for exp in exps %}
+            <div class="pxp-single-candidate-timeline-item">
+                <div class="pxp-single-candidate-timeline-dot"></div>
+                <div class="pxp-single-candidate-timeline-info ms-3">
+                    <div class="pxp-single-candidate-timeline-time"><span class="me-3">{{ exp.length }}</span></div>
+                    <div class="pxp-single-candidate-timeline-position mt-2">{{ exp.title }}</div>
+                    <div class="pxp-single-candidate-timeline-company pxp-text-light">{{ exp.location }}</div>
+                    <div class="pxp-single-candidate-timeline-about mt-2 pb-4">{{ exp.description }}</div>
+                </div>
+            </div>
+        {% endfor %}
+
+                                           
+                                        </div>
+                                    </div>
+        
+                                    <div class="mt-4 mt-lg-5">
+                                        <h2>Education & Training</h2>
+                                        <div class="pxp-single-candidate-timeline">
+                                            {% for edu in edus %}
+                                            <div class="pxp-single-candidate-timeline-item">
+                                                <div class="pxp-single-candidate-timeline-dot"></div>
+                                                <div class="pxp-single-candidate-timeline-info ms-3">
+                                                    <div class="pxp-single-candidate-timeline-time"><span class="me-3">{{edu.length}}</span></div>
+                                                    <div class="pxp-single-candidate-timeline-position mt-2">{{edu.title}}</div>
+                                                    <div class="pxp-single-candidate-timeline-company pxp-text-light">{{edu.inst}}</div>
+                                                    <div class="pxp-single-candidate-timeline-about mt-2 pb-4">{{edu.description}}</div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                           
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col-lg-5 col-xl-4 col-xxl-3">
+                            <div class="pxp-single-candidate-side-panel mt-5 mt-lg-0">
+                                <div>
+                                    <div class="pxp-single-candidate-side-info-label pxp-text-light">Email</div>
+                                    <div class="pxp-single-candidate-side-info-data">
+                                        {% if user.profile.email != "" %}
+                                            {{user.profile.email}}
+                                        {% else %}
+                                            Not Available
+                                        {% endif %}
+                                        </div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="pxp-single-candidate-side-info-label pxp-text-light">School</div>
+                                    <div class="pxp-single-candidate-side-info-data">
+                                        {% if user.profile.school != "" %}
+                                            {{user.profile.school}}
+                                        {% else %}
+                                            Not Available
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="pxp-single-candidate-side-info-label pxp-text-light">Phone</div>
+                                    <div class="pxp-single-candidate-side-info-data">
+                                        {% if user.profile.phone != "" %}
+                                            {{user.profile.phone}}
+                                        {% else %}
+                                            Not Available
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if user != request.user%}
+                            <div class="pxp-single-candidate-side-panel mt-4 mt-lg-5">
+                                <h3>Contact {{user.first_name}}</h3>
+                                <form class="mt-4" method="POST" action="{% url "submit_message" receiver=user %}">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="contact-candidate-email" class="form-label" >Email</label>
+                                        <input type="text" class="form-control" id="contact-candidate-email" name="email" placeholder="Enter your email address">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contact-candidate-message" class="form-label">Message</label>
+                                        <textarea class="form-control" id="contact-candidate-message" name="message" placeholder="Type your message here..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn rounded-pill pxp-section-cta d-block">Send Message</button>
+                                </form>
+                            </div>
+                            {% else %}
+                            <div class="pxp-single-candidate-side-panel mt-4 mt-lg-5">
+                                <h3>Check your <a href="{% url 'inbox' %}">inbox</a> for messages</h3>
+                                
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+
+{% endblock %}
