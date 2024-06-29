@@ -61,7 +61,7 @@ class RegisterView(View):
             for error in errors:
                 messages.error(self.request, f" {error}")
         return super().form_invalid(form)
-        
+
     def dispatch(self, request, *args, **kwargs):
         # will redirect to the home page if a user tries to access the register page while logged in
         if request.user.is_authenticated:
@@ -81,25 +81,25 @@ class RegisterView(View):
             user = form.save()
 
             username = form.cleaned_data.get('username')
-            
+
             if user.user_type == 'individual':
                 Profile.objects.create(user=user)
-               
+
             elif user.user_type == 'organization':
                 OrganizationProfile.objects.create(user=user)
-            
+
             user = authenticate(username=form.cleaned_data.get('username'), password=form.cleaned_data.get('password1'))
             if user is not None:
                 login(request, user)
-                
+
                 messages.success(request, f'Account created for {username}, please update your profile')
-                
+
                 if user.user_type == 'individual':
                     return redirect("update_profile")
-                
+
                 elif user.user_type == 'organization':
                     return redirect("update-org-profile")
-                
+
         else:
             print(form.errors)
         return render(request, self.template_name, {'form': form})
@@ -115,7 +115,7 @@ class CustomLoginView(LoginView):
             for error in errors:
                 messages.error(self.request, f" {error}")
         return super().form_invalid(form)
-    
+
     def form_valid(self, form):
         remember_me = form.cleaned_data.get('remember_me')
 
@@ -306,7 +306,7 @@ def delete_edu(request, pk):
         return redirect('dashboard/edu-manager')
     else:
         return HttpResponseForbidden("You don't have permission to delete this experience.")
-    
+
 
 class OrgProfileUpdate(FormView):
     form_class = UpdateOrgProfileForm
@@ -339,10 +339,10 @@ class OrgProfileUpdate(FormView):
             profile.background = self.request.FILES['background']
         profile.save()
         return super().form_valid(form)
-        
+
         return super().form_valid(form)
-    
-    
+
+
 class ProfileInline(FormView):
     form_class = UpdateProfileForm
     template_name = "dashboard/dashboard-edit-profile.html"
@@ -456,7 +456,7 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
         for skill in new_skills:
             self.object.skills.add(skill.strip())
 
-       
+
         self.object = form.save()
         for formset in self.get_named_formsets().values():
             if formset.is_valid():
@@ -515,7 +515,7 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 #checks if username exsits, for register page
 def check_username(request):
-    
+
     username = request.GET.get('username')
     if username =="":
         return HttpResponse("")
@@ -525,7 +525,7 @@ def check_username(request):
     else:
         return HttpResponse('<div style="color: green">This username is available</div>')
 def check_email(request):
-    
+
     email = request.GET.get('email')
     if email =="":
         return HttpResponse("")

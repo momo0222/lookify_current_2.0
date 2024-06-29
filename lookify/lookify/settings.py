@@ -30,7 +30,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lookify123.pythonanywhere.com', 'www.lookify.org', '127.0.0.1']
 
 
 # Application definition
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
     "easyaudit.middleware.easyaudit.EasyAuditMiddleware",
-    
+
 ]
 
 ROOT_URLCONF = 'lookify.urls'
@@ -68,7 +68,10 @@ ROOT_URLCONF = 'lookify.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, "templates"], 
+        'DIRS': [
+            os.path.join(BASE_DIR, 'lookify', 'templates'),  # This line includes the lookify/templates directory
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,7 +79,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
