@@ -30,20 +30,20 @@
                     <div class="pxp-logo">
                         <a href="{% url "users-home" %}" class="pxp-animate"><span style="color: var(--pxpMainColor)">L</span>ookify</a>
                     </div>
-                    
+
                     <div class="pxp-header-right">
-                        
+
                     <nav class="pxp-nav dropdown-hover-all d-none d-xl-block">
                         <ul>
                             <li class="dropdown">
                                 <a href="{% url 'opportunity-home' %}" class="dropdown-toggle" >Find Opportunities</a>
-                                
+
                                 <a href="{% url 'org-home' %}" class="dropdown-toggle" >Find Organizations</a>
-                                
-                                
+
+
                         <ul>
                     </nav>
-                
+
                         <nav class="pxp-user-nav pxp-on-light  d-sm-flex">
 
                             {% if user.is_authenticated %}
@@ -56,7 +56,7 @@
                                     <div class="pxp-user-nav-avatar pxp-cover" style="background-image: url({{ user.organizationprofile.avatar.url }})"></div>
                                     {% endif %}
                                     <div class="pxp-user-nav-name d-none d-md-block">
-                                        {{ user.username }} 
+                                        {{ user.username }}
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -73,15 +73,15 @@
                     </div>
                 </div>
             </div>
-    
-           
+
+
         </header>
 
 
         {% block content %}
 
         {% endblock %}
-        
+
 
         <footer class="pxp-main-footer mt-100">
             <!--
@@ -162,15 +162,15 @@
                 <div class="pxp-container">
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-auto">
-                            <div class="pxp-footer-copyright pxp-text-light">© 2021 Jobster. All Right Reserved.</div>
+                            <div class="pxp-footer-copyright pxp-text-light">© 2024 Lookify. All Right Reserved.</div>
                         </div>
                         <div class="col-lg-auto">
                             <div class="pxp-footer-social mt-3 mt-lg-0">
                                 <ul class="list-unstyled">
-                                    <li><a href="#"><span class="fa fa-facebook"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-twitter"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-instagram"></span></a></li>
-                                    <li><a href="#"><span class="fa fa-linkedin"></span></a></li>
+                                    <!--<li><a href="#"><span class="fa fa-facebook"></span></a></li>-->
+                                    <!--<li><a href="#"><span class="fa fa-twitter"></span></a></li>-->
+                                    <li><a target="_blank" href="https://www.instagram.com/lookify_official/"><span class="fa fa-instagram"></span></a></li>
+                                    <!--<li><a href="#"><span class="fa fa-linkedin"></span></a></li>-->
                                 </ul>
                             </div>
                         </div>
@@ -237,9 +237,9 @@
         <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
         <script src="/static/js/nav.js"></script>
         <script src="/static/js/main.js"></script>
-        
-        <script> 
-            
+
+        <script>
+
             {% for message in messages %}
                 alertify.set('notifier', 'position','top-center');
                 {% if message.tags == 'success' %}
@@ -248,10 +248,10 @@
                     alertify.error('{{ message }}');
                 {% endif %}
             {% endfor %}
-           
+
         </script>
         <script src="/static/js/tagsinput.js"></script>
         {% block js %} {% endblock js%}
-    
+
     </body>
 </html>
