@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import dj_database_url
 from pathlib import Path
 
 # To keep secret keys in environment variables
@@ -89,16 +90,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'lookify.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+# settings.py
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-
-
-    }
+    'default': dj_database_url.parse("postgresql://lookify_mc05_user:obyTQTt4vwYklq4FCox9delSaQLcWygj@dpg-cq295clds78s73eagb7g-a.oregon-postgres.render.com/lookify_mc05")
 }
 
 
@@ -121,11 +118,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.github.GithubOAuth2',
-    'social_core.backends.google.GoogleOAuth2',
-
+    'users.backends.UsernameOrEmailBackend',
     'django.contrib.auth.backends.ModelBackend',
-    'users.backends.UsernameOrEmailBackend'
+
+
 )
 
 
@@ -149,7 +145,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static/")]
 
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Define the directory where uploaded media files will be stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

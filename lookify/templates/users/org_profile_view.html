@@ -25,7 +25,7 @@
                                 <div class="pxp-single-company-content">
                                     <h2>About {{org.organization_name}}</h2>
                                     <p>{{org.about}}</p>
-                                    
+
                                 </div>
                             </section>
                         </div>
@@ -51,16 +51,16 @@
                                     <div class="pxp-single-company-side-info-label pxp-text-light">Website</div>
                                     <div class="pxp-single-company-side-info-data"><a href="{{org.website}}" target="_blank">{{org.website}}</a></div>
                                 </div>
-                                <div class="mt-4">
-                                    <div class="pxp-single-company-side-info-data">
-                                        <ul class="list-unstyled pxp-single-company-side-info-social">
-                                            <li><a href="#"><span class="fa fa-facebook"></span></a></li>
-                                            <li><a href="#"><span class="fa fa-twitter"></span></a></li>
-                                            <li><a href="#"><span class="fa fa-instagram"></span></a></li>
-                                            <li><a href="#"><span class="fa fa-linkedin"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <!--<div class="mt-4">-->
+                                <!--    <div class="pxp-single-company-side-info-data">-->
+                                <!--        <ul class="list-unstyled pxp-single-company-side-info-social">-->
+                                <!--            <li><a href="#"><span class="fa fa-facebook"></span></a></li>-->
+                                <!--            <li><a href="#"><span class="fa fa-twitter"></span></a></li>-->
+                                <!--            <li><a href="#"><span class="fa fa-instagram"></span></a></li>-->
+                                <!--            <li><a href="#"><span class="fa fa-linkedin"></span></a></li>-->
+                                <!--        </ul>-->
+                                <!--    </div>-->
+                                <!--</div>-->
                             </div>
                             <p> </p>
                             {% if org.user != request.user%}
@@ -82,10 +82,10 @@
                             {% else %}
                             <div class="pxp-single-company-side-panel mt-4 mt-lg-5">
                                 <h3>Check your <a href="{% url 'inbox' %}">inbox</a> for messages</h3>
-                                
+
                             </div>
                             {% endif %}
-                            
+
                         </div>
                     </div>
                 </div>
@@ -114,9 +114,9 @@
                                 </div>
                             </div>
                             <div class="pxp-jobs-card-2-bottom">
-                                
+
                                     <div class="pxp-jobs-card-2-category-label">{{post.get_category_display}}</div>
-                                
+
                                 <div class="pxp-jobs-card-2-bottom-right">
                                     <span class="pxp-jobs-card-2-date pxp-text-light">{{post.pub_date|timesince}} ago by</span> <a href="{% url 'profile-view' username=post.user.username %}" class="pxp-jobs-card-2-company">{{org.organization_name}}</a>
                                 </div>
@@ -125,7 +125,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                    
+
             </div>
         </section>
 
