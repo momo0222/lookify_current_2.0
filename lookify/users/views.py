@@ -53,6 +53,42 @@ def home(request):
     return render(request, 'users/home.html', context)
 
 
+def tutorial(request):
+    image_path = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 7.04.48 PM.png')
+    image_path2 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 7.42.08 PM.png')
+    image_path3 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 7.47.54 PM.png')
+    image_path4 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 7.54.31 PM.png')
+    image_path5 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 7.57.56 PM.png')
+    image_path6 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 9.06.27 PM.png')
+    image_path7 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 9.30.51 PM.png')
+    image_path8 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 9.19.11 PM.png')
+    image_path9 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 9.19.46 PM.png')
+    image_path10 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 9.20.14 PM.png')
+    image_path11 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 9.22.09 PM.png')
+    image_path12 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 9.26.54 PM.png')
+    image_path13 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 9.28.16 PM.png')
+    image_path14 = os.path.join(settings.MEDIA_URL, 'tutorial_images', 'Screenshot 2024-07-07 at 9.31.53 PM.png')
+    context = {
+        'image_url': image_path,
+        'image_url2': image_path2,
+        'image_url3': image_path3,
+        'image_url4': image_path4,
+        'image_url5': image_path5,
+        'image_url6': image_path6,
+        'image_url7': image_path7,
+        'image_url8': image_path8,
+        'image_url9': image_path9,
+        'image_url10': image_path10,
+        'image_url11': image_path11,
+        'image_url12': image_path12,
+        'image_url13': image_path13,
+        'image_url14': image_path14,
+
+
+    }
+    return render(request, 'users/tutorial.html', context)
+
+
 
 class RegisterView(View):
     form_class = RegisterForm
