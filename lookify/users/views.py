@@ -17,6 +17,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.views.generic.edit import UpdateView, FormView
 from django.db.models import Count
+from django.core.mail import send_mail
 
 from .forms import (
     RegisterForm,
@@ -48,6 +49,7 @@ def home(request):
         "featured": featured_looks,
         'orgs': orgs
     }
+    
     return render(request, 'users/home.html', context)
 
 
@@ -128,6 +130,7 @@ class CustomLoginView(LoginView):
 
         # else browser session will be as long as the session cookie time "SESSION_COOKIE_AGE" defined in settings.py
         messages.success(self.request, "Logged in successfully")
+        
         return super(CustomLoginView, self).form_valid(form)
 
 class ModalSignInView(LoginView):

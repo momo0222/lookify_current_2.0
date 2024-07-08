@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -59,7 +59,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_htmx.middleware.HtmxMiddleware",
     "easyaudit.middleware.easyaudit.EasyAuditMiddleware",
 
 ]
@@ -80,8 +79,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -94,8 +91,14 @@ WSGI_APPLICATION = 'lookify.wsgi.application'
 # settings.py
 DATABASE_URL = os.getenv('DATABASE_URL')
 
+# DATABASES = {
+#     'default': dj_database_url.parse("postgresql://lookify_mc05_user:obyTQTt4vwYklq4FCox9delSaQLcWygj@dpg-cq295clds78s73eagb7g-a.oregon-postgres.render.com/lookify_mc05")
+# }
 DATABASES = {
-    'default': dj_database_url.parse("postgresql://lookify_mc05_user:obyTQTt4vwYklq4FCox9delSaQLcWygj@dpg-cq295clds78s73eagb7g-a.oregon-postgres.render.com/lookify_mc05")
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -157,25 +160,24 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
 
 LOGOUT_REDIRECT_URL = '/'
-# social auth configs for github
-SOCIAL_AUTH_GITHUB_KEY = str(os.getenv('GITHUB_KEY'))
-SOCIAL_AUTH_GITHUB_SECRET = str(os.getenv('GITHUB_SECRET'))
+# # social auth configs for github
+# SOCIAL_AUTH_GITHUB_KEY = str(os.getenv('GITHUB_KEY'))
+# SOCIAL_AUTH_GITHUB_SECRET = str(os.getenv('GITHUB_SECRET'))
 
-# social auth configs for google
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = str(os.getenv('GOOGLE_KEY'))
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = str(os.getenv('GOOGLE_SECRET'))
+# # social auth configs for google
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = str(os.getenv('GOOGLE_KEY'))
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = str(os.getenv('GOOGLE_SECRET'))
 
 # email configs
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 EMAIL_PORT = 587
 # EMAIL_HOST_USER = str(os.getenv('EMAIL_USER'))
 EMAIL_HOST_USER = "lookify123@gmail.com"
-# EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))
-EMAIL_HOST_PASSWORD = "Jjj@1234567"
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))
+x
 
 
 # Default primary key field type

@@ -1,3 +1,6 @@
 *.pyc
 __pycache__/
 client_secret.json
+generate_token.py
+# Ignore SQLite database file
+db.sqlite3
