@@ -18,10 +18,9 @@
                         <form class="row gx-3 align-items-center" action="{% url 'opportunity-home' %}">
                             <div class="col-12 col-md">
                                 <div class="form-floating">
-    <p type="text" class="form-control" id="pxpHeroFormKeyword">
-    <label for="pxpHeroFormKeyword">Discover what's waiting for you...</label>
-</div>
-
+                                    <input type="text" class="form-control" id="pxpHeroFormKeyword">
+                                    <label for="pxpHeroFormKeyword">Discover what's waiting for you...</label>
+                                </div>
                             </div>
                             <div class="col-12 col-md-auto">
                                 <button>Find Looks</button>
@@ -29,7 +28,14 @@
                         </form>
                     </div>
 
-
+                    <!-- Add the link here -->
+                    <div class="mt-4">
+                        <a href="{% url 'tutorial' %}" style="text-decoration: none;">
+                            <h3 style="font-weight: bold; color: var(--pxpMainColor); text-align: center;">
+                                <u>Learn How To Get Started</u>
+                            </h3>
+                        </a>
+                    </div>
                 </div>
                 <div class="d-none d-xl-block col-xl-4 col-xxl-5 position-relative">
                     <div class="pxp-hero-boxed-circulars pxp-animate-circles-bounce">
@@ -47,15 +53,8 @@
                     </div>
 
                     <div class="pxp-hero-boxed-icon-circles">
-                         <a href="{% url 'tutorial' %}" style="text-decoration: none;">
-  <div class="pxp-hero-boxed-icon-circle-2 pxp-animate-icon-circle-bounce" style="background-color: #002745; width: 100px; height: 200px; border-radius: 10%; display: flex; justify-content: center; align-items: center;">
-    <u><h3 style="font-weight: bold; color: #e6f0f9; text-align: center;">Learn How To Get Started</h3></u>
-  </div>
-</a>
-
-
-
-
+                        <div class="pxp-hero-boxed-icon-circle-2 pxp-animate-icon-circle-bounce" style="background-color: #002745; width: 100px; height: 200px; border-radius: 10%; display: flex; justify-content: center; align-items: center;"></div>
+                    </div>
                 </div>
             </div>
         </div>
