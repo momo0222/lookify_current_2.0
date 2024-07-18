@@ -80,22 +80,41 @@
                         </td>
                         <td>
                             <div class="pxp-dashboard-table-options">
+                                {% if app.status != "PENDING" %}
                                 <ul class="list-unstyled">
                                     <li><button type="button" data-bs-toggle="modal" data-bs-target="#application_info" data-app-text="{{ app.text }}" title="View profile"><span class="fa fa-eye"></span></button></li>
                                     <li><button title="Send message" type="button" data-bs-toggle="modal" data-bs-target="#contact_info" data-app-text="{{ app.contact }}"><span class="fa fa-envelope-o"></span></button></li>
                                     <li>
                                         <form method="POST" action="{% url 'accept-app' pk=app.pk %}"> 
                                             {% csrf_token %}
-                                        <button title="Approve" onclick="return confirm('Are you sure?')" ><span class="fa fa-check"></span></button>
+                                        <button title="Approve" onclick="return confirm('Are you sure you want to accept this applicant?')" disabled><span class="fa fa-check"></span></button>
                                         </form>
                                     </li>
                                     <li>
                                         <form method="POST" action="{% url 'deny-app' pk=app.pk %}"> 
                                             {% csrf_token %}
-                                        <button title="Reject" onclick="return confirm('Are you sure?')" ><span class="fa fa-ban"></span></button>
+                                        <button title="Reject" onclick="return confirm('Are you sure you want to rejecte this applicant?')" disabled><span class="fa fa-ban"></span></button>
                                         </form>
                                     </li>
                                 </ul>
+                                {% else %}
+                                    <ul class="list-unstyled">
+                                        <li><button type="button" data-bs-toggle="modal" data-bs-target="#application_info" data-app-text="{{ app.text }}" title="View profile"><span class="fa fa-eye"></span></button></li>
+                                        <li><button title="Send message" type="button" data-bs-toggle="modal" data-bs-target="#contact_info" data-app-text="{{ app.contact }}"><span class="fa fa-envelope-o"></span></button></li>
+                                        <li>
+                                            <form method="POST" action="{% url 'accept-app' pk=app.pk %}"> 
+                                                {% csrf_token %}
+                                            <button title="Approve" onclick="return confirm('Are you sure you want to accept this applicant?')"><span class="fa fa-check"></span></button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form method="POST" action="{% url 'deny-app' pk=app.pk %}"> 
+                                                {% csrf_token %}
+                                            <button title="Reject" onclick="return confirm('Are you sure you want to rejecte this applicant?')"><span class="fa fa-ban"></span></button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                {% endif %}
                             </div>
                         </td>
                     </tr>

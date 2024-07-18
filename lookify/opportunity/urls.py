@@ -8,4 +8,5 @@ urlpatterns = [
     path("data", views.data, name="data"),
     path("like/<int:pk>/", views.like_opportunity, name="likes"),
     path("apply/<int:pk>/", views.apply_opportunity, name="apply"),
+    
 ]

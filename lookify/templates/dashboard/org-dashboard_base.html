@@ -70,6 +70,40 @@
                     </div>
                 </div>
                 <nav class="pxp-user-nav pxp-on-light">
+                    <div class="dropdown pxp-user-nav-dropdown pxp-user-notifications">
+                        <a role="button" class="dropdown-toggle" data-bs-toggle="dropdown">
+                            <span class="fa fa-bell-o"></span>
+                            <div class="pxp-user-notifications-counter">{{notifs_count}}</div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end pxp-user-notifications">
+                            {% for notif in notifs %}
+                            <li class="notification {% if not notif.is_read %} unread{% endif %}" data-id="{{ notif.id }}">
+                                {% if notif.type_of_notification == 'dm' %}
+                                    <a class="dropdown-item" href="{% url 'inbox' %}">
+                                        <strong>{{ notif.user_sender }}</strong> 
+                                            wants to get in touch with you
+                                        <span class="pxp-is-time">{{ notif.created_at|timesince }}</span>
+                                    </a>
+                                {% elif notif.type_of_notification == "application" %}
+                                    <a class="dropdown-item" href="{% url 'opportunity-manager' %}">
+                                        <strong>{{ notif.user_sender }}</strong> 
+                                            applied to one of your looks
+                                        <span class="pxp-is-time">{{ notif.created_at|timesince }}</span>
+                                    </a>
+                                {% elif notif.type_of_notification == "result" %}
+                                    <a class="dropdown-item" href="{% url 'application-manager' %}">
+                                        <strong>{{ notif.user_sender }}</strong> 
+                                            gave you a response to your application
+                                        <span class="pxp-is-time">{{ notif.created_at|timesince }}</span>
+                                    </a>
+                                {% endif %}
+                                
+                            </li>
+                            {% endfor %}
+                            
+                        </ul>
+                        
+                    </div>
                     <div class="dropdown pxp-user-nav-dropdown">
                         <a role="button" class="dropdown-toggle" data-bs-toggle="dropdown">
                             <div class="pxp-user-nav-avatar pxp-cover" style="background-image: url({{ user.organizationprofile.avatar.url }});"></div>
@@ -94,6 +128,46 @@
         <script src="/static/js/main.js"></script>
         <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
         <script src="/static/js/tagsinput.js"></script>
+        <script>
+            $(document).ready(function() {
+                function markAsRead(notificationIds) {
+                    $.ajax({
+                        url: "{% url 'mark_as_read' %}",
+                        type: "POST",
+                        data: {
+                            notification_ids: notificationIds,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                $('.pxp-user-notifications-counter').text('0');
+                                notificationIds.forEach(function(id) {
+                                    $('li[data-id="' + id + '"]').removeClass('unread');
+                                });
+                            } else {
+                                console.error('Failed to mark notifications as read');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('AJAX Error:', status, error);
+                        }
+                    });
+                }
+            
+                // Mark all notifications as read when the dropdown is opened
+                $('.pxp-user-notifications .dropdown-toggle').on('click', function() {
+                    var unreadNotificationIds = [];
+                    $('.notification.unread').each(function() {
+                        unreadNotificationIds.push($(this).data('id'));
+                    });
+                   
+                    if (unreadNotificationIds.length > 0) {
+                        markAsRead(unreadNotificationIds);
+                    }
+                });
+            });
+            </script>
+            
         <script> 
             
             {% for message in messages %}

@@ -13,7 +13,7 @@ from easyaudit.models import RequestEvent
 from taggit.models import Tag
 from django.db.models import Q
 from django.http import HttpResponse
-
+from notifications.models import Notifications
 
 # views.py
 
@@ -181,10 +181,12 @@ def apply_opportunity(request, pk):
 
                 profile = request.user.profile
                 profile.has_applied = True
-                print(request.user.profile.has_applied)
+               
                 profile.save()
                 
+                Notifications.objects.create(user_sender=request.user, user_revoker=opp.user, type_of_notification="application")
                 messages.success(request, "Application sent!")
+                
                 return redirect(to='post-detail', pk=pk)
             
         else:

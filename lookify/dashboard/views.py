@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.http import HttpResponseForbidden  # Import your Exp model here
 from django.contrib.auth import get_user_model
 from users.forms import ExpForm, EduForm
+from notifications.models import Notifications
 # Create your views here.
 
 User = get_user_model()
@@ -62,7 +63,7 @@ def opportunity_manager(request):
 def application_manager(request):
     user = request.user
     applications = Application.objects.filter(sender=user)
-    opps = Opportunity.objects.filter(application__in=applications).distinct()
+    opps = Opportunity.objects.filter(application__in=applications).distinct().order_by('-pub_date')
     count = opps.count()
 
     page_number = request.GET.get('page', 1)
@@ -221,7 +222,7 @@ def application_approve(request, pk):
     postpk = app.opportunity.pk
     app.status = "Accepted"
     app.save()
-
+    Notifications.objects.create(user_sender=request.user, user_revoker=app.sender, type_of_notification="result")
     return redirect(to="manage-application-list", pk=postpk)
 
 @login_required
@@ -230,7 +231,7 @@ def application_reject(request, pk):
     postpk = app.opportunity.pk
     app.status = "Rejected"
     app.save()
-
+    Notifications.objects.create(user_sender=request.user, user_revoker=app.sender, type_of_notification="result")
     return redirect(to="manage-application-list", pk=postpk)
 
 @login_required

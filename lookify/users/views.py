@@ -18,6 +18,7 @@ from django.views import View
 from django.views.generic.edit import UpdateView, FormView
 from django.db.models import Count
 from django.core.mail import send_mail
+from notifications.models import Notifications
 
 from .forms import (
     RegisterForm,
@@ -35,7 +36,10 @@ from .models import Profile, Education, Experience, Exp, Edu, ContactRequest, Or
 from opportunity.models import Opportunity, Application
 
 User = get_user_model()
+from django.shortcuts import render, HttpResponse
+from channels.layers import get_channel_layer
 
+# Create your views here.
 def home(request):
     numLooks =  Opportunity.objects.count()
     featured_looks = Opportunity.objects.order_by("-visits")[:6]
@@ -226,7 +230,13 @@ def submitContact(request, receiver):
         if message.is_valid():
             message.save()
             messages.success(request, "Your message has been sent successfully")
-            return redirect(to="profile-view", username=receiver)
+            Notifications.objects.create(user_sender=request.user, user_revoker=receiver, type_of_notification="dm")
+           
+            # return redirect(to="profile-view", username=receiver)
+            return redirect(to="users-home")
+        else:
+            print("error")
+            return None
 
 
 @login_required

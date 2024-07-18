@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'opportunity',
     'easyaudit',
     'dashboard',
-    'orgs'
+    'orgs',
+    'channels',
+    'notifications'
 ]
 
 MIDDLEWARE = [
@@ -79,13 +81,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'notifications.context_processor.notification_context_processor'
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'lookify.wsgi.application'
-
+ASGI_APPLICATION = 'lookify.asgi.application'
 
 
 # settings.py
@@ -187,3 +190,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DJANGO_EASY_AUDIT_WATCH_MODEL_EVENTS = False
 DJANGO_EASY_AUDIT_WATCH_AUTH_EVENTS = False
+
+#channles
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
