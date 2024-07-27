@@ -1,5 +1,65 @@
 {% extends 'base.html' %}
 {% block title %} Organization Profile {% endblock %}
+{% block icon %}
+{% if request.user.is_authenticated %}
+    <a href= "{% url 'create-opp'%}" class="btn rounded-pill pxp-nav-btn">Post Look</a>
+    <div class="dropdown pxp-user-nav-dropdown pxp-user-notifications">
+        <a role="button" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <span class="fa fa-bell-o"></span>
+            <div class="pxp-user-notifications-counter">{{notifs_count}}</div>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end pxp-user-notifications">
+            {% for notif in notifs %}
+            <li class="notification {% if not notif.is_read %} unread{% endif %}" data-id="{{ notif.id }}">
+                {% if notif.type_of_notification == 'dm' %}
+                    <a class="dropdown-item" href="{% url 'inbox' %}">
+                        <strong>{{ notif.user_sender }}</strong> 
+                            wants to get in touch with you
+                        <span class="pxp-is-time">{{ notif.created_at|timesince }} ago</span>
+                    </a>
+                {% elif notif.type_of_notification == "application" %}
+                    <a class="dropdown-item" href="{% url 'opportunity-manager' %}">
+                        <strong>{{ notif.user_sender }}</strong> 
+                            applied to one of your looks
+                        <span class="pxp-is-time">{{ notif.created_at|timesince }} ago</span>
+                    </a>
+                {% elif notif.type_of_notification == "result" %}
+                    <a class="dropdown-item" href="{% url 'application-manager' %}">
+                        <strong>{{ notif.user_sender }}</strong> 
+                            gave you a response to your application
+                        <span class="pxp-is-time">{{ notif.created_at|timesince }} ago</span>
+                    </a>
+                {% endif %}
+                
+            </li>
+            {% endfor %}
+            
+        </ul>
+        
+    </div>
+    <div class="dropdown pxp-user-nav-dropdown">
+        <a href="index.html" class="dropdown-toggle" data-bs-toggle="dropdown">
+            {% if request.user.user_type == 'individual' %}
+            <div class="pxp-user-nav-avatar pxp-cover" style="background-image: url({{ request.user.profile.avatar.url }})"></div>
+            {% else %}
+            <div class="pxp-user-nav-avatar pxp-cover" style="background-image: url({{ request.user.organizationprofile.avatar.url }})"></div>
+            {% endif %}
+            <div class="pxp-user-nav-name d-none d-md-block">
+                {{ request.user.username }}
+            </div>
+        </a>
+        
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{% url 'profile-view' request.user.username %}">See Profile</a></li>
+            <li><a role = "button" class = "nav-link" href="{% url 'user-dash'%}" >Dashboard</a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+    {% else %}
+    <a href= "{% url 'users-register'%}" class="btn rounded-pill pxp-nav-btn">Register</a>
+    <a class="btn rounded-pill pxp-user-nav-trigger"  href="{% url 'login' %}">Sign in</a>
+    {% endif %}
+{% endblock icon %}
 {% block content %}
         <section>
             <div class="pxp-container">

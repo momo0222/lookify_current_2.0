@@ -236,7 +236,7 @@ def application_reject(request, pk):
 
 @login_required
 def inbox(request):
-    requests = ContactRequest.objects.filter(receiver=request.user)
+    requests = ContactRequest.objects.filter(receiver=request.user).order_by("-send_date")
 
     context = {
         "messages": requests

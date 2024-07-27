@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'easyaudit',
     'dashboard',
     'orgs',
-    'channels',
     'notifications'
 ]
 
@@ -92,17 +91,17 @@ ASGI_APPLICATION = 'lookify.asgi.application'
 
 
 # settings.py
-DATABASE_URL = os.getenv('DATABASE_URL')
+# DATABASE_URL = os.getenv('DATABASE_URL')
 
-# DATABASES = {
-#     'default': dj_database_url.parse("postgresql://lookify_mc05_user:obyTQTt4vwYklq4FCox9delSaQLcWygj@dpg-cq295clds78s73eagb7g-a.oregon-postgres.render.com/lookify_mc05")
-# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse("postgresql://lookify_mc05_user:obyTQTt4vwYklq4FCox9delSaQLcWygj@dpg-cq295clds78s73eagb7g-a.oregon-postgres.render.com/lookify_mc05")
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation

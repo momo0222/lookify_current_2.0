@@ -37,7 +37,7 @@ from opportunity.models import Opportunity, Application
 
 User = get_user_model()
 from django.shortcuts import render, HttpResponse
-from channels.layers import get_channel_layer
+
 
 # Create your views here.
 def home(request):
@@ -233,7 +233,7 @@ def submitContact(request, receiver):
             Notifications.objects.create(user_sender=request.user, user_revoker=receiver, type_of_notification="dm")
            
             # return redirect(to="profile-view", username=receiver)
-            return redirect(to="users-home")
+            return redirect(to="profile-view", username=receiver)
         else:
             print("error")
             return None

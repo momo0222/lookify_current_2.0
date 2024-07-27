@@ -6346,9 +6346,7 @@ ol.pxp-comments-list {
   .pxp-nav-trigger {
     margin-left: 20px;
   }
-  .pxp-user-nav  {
-    display: none;
-  }
+  
   .pxp-companies-list-top .form-select,
   .pxp-jobs-list-top .form-select,
   .pxp-candidates-list-top .form-select {

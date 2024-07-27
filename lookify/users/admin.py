@@ -3,7 +3,6 @@ from .models import CustomUser, OrganizationProfile, Profile, Experience, Educat
 
 admin.site.register(CustomUser)
 admin.site.register(Profile)
-admin.site.register(Experience)
-admin.site.register(Education)
-admin.site.register(ContactRequest)
+admin.site.register(OrganizationProfile)
+
 
