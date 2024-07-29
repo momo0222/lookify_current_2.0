@@ -17,6 +17,7 @@ urlpatterns = [
     path("check_username/", views.check_username, name="check-username"),
     path("check_email/", views.check_email, name="check-email"),
     path("tutorial/", views.tutorial, name="tutorial"),
+    path("sendtest", views.send_lookify_email, name="send-lookify-email"),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

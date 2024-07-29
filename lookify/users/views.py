@@ -582,3 +582,25 @@ def check_email(request):
         return HttpResponse('<div style="color: red">This email is already exists</div>')
     else:
         return HttpResponse('<div style="color: green">This email is available</div>')
+    
+
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMessage
+
+def send_lookify_email(request):
+    subject = "See What's New at Lookify!"
+    from_email = 'lookify123@gmail.com'
+    to = 'joywang0222@gmail.com'
+    
+    html_content = render_to_string('email_template.html')
+    text_content = strip_tags(html_content)
+    
+    email = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    email.attach_alternative(html_content, "text/html")
+    
+    
+    
+    email.send()
