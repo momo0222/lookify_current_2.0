@@ -1,10 +1,12 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm,SetPasswordForm
 from taggit.forms import TagField
 from .models import Profile, OrganizationProfile, Experience, Education,  ContactRequest, Exp, Edu
 from django.forms import inlineformset_factory
 from taggit.forms import TagWidget
+
+
 
 
 User = get_user_model()
@@ -158,3 +160,28 @@ class EduForm(forms.ModelForm):
     class Meta:
         model = Edu
         fields = ['title', 'description', 'location','length']
+
+
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(label="Email", max_length=254, widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}))
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label="New Password",
+        widget=forms.PasswordInput(attrs={
+            'autocomplete': 'new-password',
+            'class': 'form-control',
+            'placeholder': 'Enter new password',
+            'id': 'id_new_password1'
+        }),
+    )
+    new_password2 = forms.CharField(
+        label="New Password Confirmation",
+        widget=forms.PasswordInput(attrs={
+            'autocomplete': 'new-password',
+            'class': 'form-control',
+            'placeholder': 'Confirm new password',
+            'id': 'id_new_password2'
+        }),
+    )

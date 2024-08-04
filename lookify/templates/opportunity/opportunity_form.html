@@ -1,3 +1,4 @@
+{% comment %} not used anymore {% endcomment %}
 {% extends 'base.html' %}
 {% block title %} Create Opportunity {% endblock title %}
 {% block content %}
@@ -21,6 +22,10 @@
                 <div class="form-group">
                     <label>Location</label>
                     <input type="text" class="form-control" name="location" placeholder="Add description"></input>
+                </div>
+                <div class="form-group">
+                    <label>Application Link</label>
+                    <input type="text" class="form-control" name="application_type" placeholder="Leave blank if you want to use the default application with just one essay question on why you are a good candidate"></input>
                 </div>
                 <div class="form-group">
                     <label>Tags</label>

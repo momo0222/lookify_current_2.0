@@ -5,7 +5,7 @@ from .models import Opportunity, Experience, Application
 class OpportunityForm(forms.ModelForm):
     class Meta:
         model = Opportunity
-        fields = ['title', 'description', 'location', 'category', 'background', 'tags', 'responsibilities', 'grade',
+        fields = ['title', 'description', 'location', 'category', 'background', 'tags','application_type', 'responsibilities', 'grade',
                   'length']
 
 

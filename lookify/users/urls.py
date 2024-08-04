@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', views.home, name='users-home'),
@@ -18,6 +19,10 @@ urlpatterns = [
     path("check_email/", views.check_email, name="check-email"),
     path("tutorial/", views.tutorial, name="tutorial"),
     path("sendtest", views.send_lookify_email, name="send-lookify-email"),
+    path("password_reset", views.password_reset,name="password-reset" ),
+    path('password_reset/done/', TemplateView.as_view(template_name="users/password_reset_done.html"), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', views.CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', TemplateView.as_view(template_name="users/password_reset_complete.html"), name='password_reset_complete'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

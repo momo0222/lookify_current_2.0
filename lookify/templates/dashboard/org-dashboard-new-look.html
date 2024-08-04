@@ -13,13 +13,19 @@
                     <label for="pxp-company-job-title" class="form-label">Look title</label>
                     <input type="text" id="pxp-company-job-title" class="form-control" name="title" placeholder="Add title">
                 </div>
-                <div class="mb-3">
-                    <label for="pxp-company-job-category" class="form-label">Category</label>
+            </div>
+            <div class="col-md-6 col-xxl-3">
+                <label for="pxp-company-job-category" class="form-label">Category</label>
                     <select id="pxp-company-job-category" name="category" class="form-select">
                         {% for choice in form.category.field.choices %}
                             <option value="{{ choice.0 }}" {% if choice.0 == form.category.value %}selected{% endif %}>{{ choice.1 }}</option>
                         {% endfor %}
                     </select>
+            </div>
+            <div class="col-md-6 col-xxl-3">
+                <div class="form-group">
+                    <label>Application Link</label>
+                    <input type="text" class="form-control" name="application_type" placeholder="Leave blank if you want to use the default application with just one essay question on why you are a good candidate"></input>
                 </div>
             </div>
             <div class="col-md-6 col-xxl-3">

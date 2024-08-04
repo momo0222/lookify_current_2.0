@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetConfirmView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
@@ -19,6 +19,10 @@ from django.views.generic.edit import UpdateView, FormView
 from django.db.models import Count
 from django.core.mail import send_mail
 from notifications.models import Notifications
+from django.contrib.auth.tokens import default_token_generator
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 
 from .forms import (
     RegisterForm,
@@ -30,7 +34,9 @@ from .forms import (
     EducationFormSet,
     ContactForm,
     ExpForm,
-    EduForm
+    EduForm,
+    PasswordResetRequestForm,
+    CustomSetPasswordForm
 )
 from .models import Profile, Education, Experience, Exp, Edu, ContactRequest, OrganizationProfile
 from opportunity.models import Opportunity, Application
@@ -593,14 +599,53 @@ from django.core.mail import EmailMessage
 def send_lookify_email(request):
     subject = "See What's New at Lookify!"
     from_email = 'lookify123@gmail.com'
-    to = 'joywang0222@gmail.com'
+    bcc = ['226505@students.srvusd.net', 'joywang0222@gmail.com']
     
     html_content = render_to_string('email_template.html')
     text_content = strip_tags(html_content)
     
-    email = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    email = EmailMultiAlternatives(subject, text_content, from_email, bcc=bcc)
     email.attach_alternative(html_content, "text/html")
     
-    
-    
     email.send()
+
+def password_reset(request):
+    if request.method == "POST":
+        form = PasswordResetRequestForm(request.POST)
+        print("were her")
+        if form.is_valid():
+            print("maybe")
+            email = form.cleaned_data['email']
+            associated_users = User.objects.filter(email=email)
+            if associated_users.exists():
+                for user in associated_users:
+                    subject = "Password Reset Requested"
+                    email_template_name = "users/password_reset_email.txt"
+                    context = {
+                        "email": user.email,
+                        "domain": request.get_host(),
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "user": user,
+                        "token": default_token_generator.make_token(user),
+                        "protocol": "http" if not request.is_secure() else "https",
+                    }
+                    email = render_to_string(email_template_name, context)
+                    print("we done?")
+                    send_mail(subject, email, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+                return redirect("password_reset_done")
+    else:
+
+        form = PasswordResetRequestForm()
+    return render(request, "users/password_reset.html", {"form": form})
+
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    form_class = CustomSetPasswordForm
+    success_url = reverse_lazy('password_reset_complete')
+    template_name = 'users/password_reset_confirm.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['validlink'] = self.validlink
+        return context

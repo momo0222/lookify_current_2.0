@@ -33,6 +33,7 @@ class Opportunity(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='academic_enrichment')
     background = models.ImageField(default='default.jpg', upload_to='background_images')
     responsibilities = models.TextField(default="Add responsibilities for this responsibility")
+    application_type = models.URLField(blank=True, null=True) 
     grade = models.CharField(max_length=35, default="10th Grade")
     length = models.CharField(max_length=50, choices=LENGTH_CHOICES, default='less_than_a_week')
     pub_date = models.DateTimeField(auto_now_add=True)

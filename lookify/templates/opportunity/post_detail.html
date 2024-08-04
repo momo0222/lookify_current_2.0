@@ -24,9 +24,15 @@
                                     <div class="pxp-single-job-options mt-4 col-xl-0">
                                         <div class="dropdown ms-2">
                                         {% if opportunity.user != request.user %}
+                                        {% if opportunity.application_type %}
+                                        </div>"
+                                            <a href = "{{opportunity.application_type}}" target="_blank" class="btn ms-4 rounded-pill pxp-section-cta">Apply Now</a>
                                         </div>
-                                        <a href = "{% url 'apply' pk=opportunity.pk %}" class="btn ms-4 rounded-pill pxp-section-cta">Apply Now</a>
-                                    </div>
+                                        {% else %}
+                                        </div>
+                                            <a href = "{% url 'apply' pk=opportunity.pk %}" class="btn ms-4 rounded-pill pxp-section-cta">Apply Now</a>
+                                        </div>
+                                        {% endif %}
                                     {% endif %}
                                     {% if opportunity.user == request.user %}
                                         </div>
