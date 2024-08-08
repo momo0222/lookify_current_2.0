@@ -48,7 +48,7 @@ Author URI: https://pixelprime.co/
  * 1.0 - General
  */
 
-.pxp-root {
+:root {
   --pxpHoverTransition: 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
   --pxpHoverOpacity: 0.6;
   --pxpTextColor: #17171d;
@@ -6346,7 +6346,9 @@ ol.pxp-comments-list {
   .pxp-nav-trigger {
     margin-left: 20px;
   }
-  
+  /* .pxp-user-nav  {
+    display: none;
+  } */
   .pxp-companies-list-top .form-select,
   .pxp-jobs-list-top .form-select,
   .pxp-candidates-list-top .form-select {
@@ -6527,4 +6529,24 @@ ol.pxp-comments-list {
   .pxp-categories-card-3-text {
     padding: 10px 20px;
   }
+}
+
+
+/* Increase the size of the Select2 widget */
+.select2-container .select2-selection--single {
+  height: 40px; /* Adjust the height as needed */
+  font-size: 16px; /* Adjust the font size as needed */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 38px; /* Adjust to match the height */
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 38px; /* Adjust to match the height */
+}
+
+/* Set the width of the Select2 container */
+.select2-container--default {
+  width: 200px !important; /* Change 100px to your desired width */
 }

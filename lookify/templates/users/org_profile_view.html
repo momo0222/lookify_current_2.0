@@ -103,6 +103,12 @@
                                     <div class="pxp-single-company-side-info-label pxp-text-light">Email</div>
                                     <div class="pxp-single-company-side-info-data">{{org.email}}</div>
                                 </div>
+                                {% if org.school != None %}
+                                    <div class="mt-4">
+                                        <div class="pxp-single-company-side-info-label pxp-text-light">School</div>
+                                        <div class="pxp-single-company-side-info-data">{{org.school}}</div>
+                                    </div>
+                                {% endif %}
                                 <div class="mt-4">
                                     <div class="pxp-single-company-side-info-label pxp-text-light">Location</div>
                                     <div class="pxp-single-company-side-info-data">{{org.full_address}}</div>

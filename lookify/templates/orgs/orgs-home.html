@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load custom_filters %}
+{% block stylesheet %} <link rel="stylesheet" href="/static/css/customsearch.css"> {% endblock %}
 {% block title %} Search Organizations {% endblock title %}
 {% block content %}
 <section class="pxp-page-header-simple" style="background-color: var(--pxpSecondaryColor);">
@@ -7,12 +8,12 @@
         <h1>Search Organizations</h1>
         <div class="pxp-hero-subtitle pxp-text-light">Find opportunities with your favorite organizations</div>
         <div class="pxp-hero-form pxp-hero-form-round pxp-large mt-3 mt-lg-4">
-            <form method="GET" class="row gx-3 align-items-center">
+            <form id="general" method="GET" class="row gx-3 align-items-center"style="display: show;" >
                 <div class="col-12 col-lg">
 
                     <div class="input-group mb-3 mb-lg-0">
                         <span class="input-group-text"><span class="fa fa-search"></span></span>
-                        <input type="text" class="form-control" name='search' placeholder="Organization Name or Keyword">
+                        {{form.search}}
                     </div>
 
                 </div>
@@ -21,6 +22,24 @@
                     <button type="submit">Find Organizations</button>
                 </div>
             </form>
+            <form id ="school" method="GET" class="row gx-3 align-items-center"style="display: none;" >
+                <div class="col-12 col-lg">
+
+                    <div class="input-group mb-3 mb-lg-0">
+                        <span class="input-group-text"><span class="fa fa-search"></span></span>
+                        {{form.school}}
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-lg-auto">
+                    <button type="submit">Find Organizaitons within your school</button>
+                </div>
+            </form>
+            <div class="custom-control custom-switch mt-3 mt-lg-4">
+                <input type="checkbox" class="custom-control-input" id="associateSchoolSwitch">
+                <label class="custom-control-label" for="associateSchoolSwitch">I want to search for my school</label>
+            </div>
         </div>
     </div>
 </section>
@@ -84,3 +103,42 @@
 
 
  {% endblock content %}
+ {% block js%}
+ <script>
+    $('#associateSchoolSwitch').change(function() {
+        if ($(this).is(':checked')) {
+            $('#school').show();
+            $('#general').hide();
+        } else {
+            $('#school').hide();
+            $('#general').show();
+        }
+    });
+    $('#id_school').select2({
+        ajax: {
+            url: '{% url "school_ajax_search" %}',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                };
+            },
+            processResults: function (data) {
+                if (data.results.length === 0) {
+                    $('#add-school-btn').show();
+                } else {
+                    $('#add-school-btn').hide();
+                }
+                return {
+                    results: data.results,
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 1,
+        width: '100%'  // Make the widget take the full width of the container
+    });
+    
+</script>
+ {% endblock %}

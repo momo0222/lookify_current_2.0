@@ -125,9 +125,14 @@ class UpdateProfileForm(forms.ModelForm):
 
 
 class UpdateOrgProfileForm(forms.ModelForm):
+    school = forms.ModelChoiceField(
+        queryset=School.objects.all(),
+        widget=SchoolWidget,
+        label="Search School by Name or Zip Code"
+    )
     class Meta:
         model = OrganizationProfile
-        fields = ['organization_name', 'background', 'avatar', 'phone', 'email', 'about', 'website','full_address', 'domain', 'keywords']
+        fields = ['organization_name', 'background', 'avatar', 'phone', 'email', 'about', 'website','full_address', 'school', 'domain', 'keywords']
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
