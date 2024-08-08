@@ -1,5 +1,7 @@
 import os
+import json
 from django.conf import settings
+from django.http import JsonResponse
 from django.core.files.storage import default_storage
 from django.core.paginator import Paginator
 from django.db import IntegrityError
@@ -36,9 +38,10 @@ from .forms import (
     ExpForm,
     EduForm,
     PasswordResetRequestForm,
-    CustomSetPasswordForm
+    CustomSetPasswordForm,
+    SchoolCreateForm
 )
-from .models import Profile, Education, Experience, Exp, Edu, ContactRequest, OrganizationProfile
+from .models import Profile, Education, Experience, Exp, Edu, ContactRequest, OrganizationProfile, School
 from opportunity.models import Opportunity, Application
 
 User = get_user_model()
@@ -649,3 +652,39 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
         context = super().get_context_data(**kwargs)
         context['validlink'] = self.validlink
         return context
+#for getting school search queries
+class SchoolAjaxView(View):
+    def get(self, request, *args, **kwargs):
+        if 'q' in request.GET:
+            query = request.GET.get('q')
+            schools = School.objects.filter(name__icontains=query) | School.objects.filter(zip_code__icontains=query)
+            results = []
+            for school in schools[:5]:  # Limit to top 5 results
+                results.append({
+                    'id': school.id,
+                    'text': f"{school.name} ({school.zip_code})"
+                })
+            return JsonResponse({'results': results})
+        return JsonResponse({'results': []})
+    
+
+
+def addSchool(request):
+    if request.method == 'POST':
+        form = SchoolCreateForm(request.POST)
+        if form.is_valid():
+            school = form.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "movieListChanged": None,
+                        "showMessage": f"{school.name} added."
+                    })
+                })
+    else:
+        form = SchoolCreateForm()
+    return render(request, 'dashboard/new_school.html', {
+        'form': form,
+    })
+    

@@ -25,7 +25,16 @@ def profile_image_path(instance, filename):
 def background_image_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/background_images/<filename>
     return f"background_images/{filename}"
+class School(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
+    state = models.CharField(max_length=255, blank=True, null=True)
+    zip_code = models.CharField(max_length=10, blank=True, null=True)
+    country = models.CharField(max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.name
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     background = models.ImageField(default="default.jpg", upload_to="profile_background")
@@ -34,7 +43,8 @@ class Profile(models.Model):
     email = models.EmailField(max_length=75, blank=True)
     bio = models.TextField()
     grade = models.TextField(default='N/A')
-    school = models.TextField(default='N/A')
+    
+    school = models.ForeignKey('School', null=True, blank=True, on_delete=models.SET_NULL, default=None)
     skills = TaggableManager()
     has_applied = models.BooleanField(default=False)
 
@@ -59,6 +69,7 @@ class OrganizationProfile(models.Model):
     avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
     phone = models.CharField(max_length=50, blank=True)
     email = models.EmailField(max_length=75, blank=True)
+    school = school = models.ForeignKey('School', null=True, blank=True, on_delete=models.SET_NULL, default=None)
     about = models.TextField()
     full_address = models.TextField(default='N/A')
     website = models.URLField(blank=True)

@@ -2,10 +2,10 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm,SetPasswordForm
 from taggit.forms import TagField
-from .models import Profile, OrganizationProfile, Experience, Education,  ContactRequest, Exp, Edu
+from .models import Profile, OrganizationProfile, Experience, Education,  ContactRequest, Exp, Edu, School
 from django.forms import inlineformset_factory
 from taggit.forms import TagWidget
-
+from django_select2 import forms as s2forms
 
 
 
@@ -88,8 +88,27 @@ class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
-#for individuals users
+
+class SchoolWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "name__icontains",
+        "zip_code__icontains",
+    ]
+   
+    def get_url(self):
+        return '/ajax/school-search/'
+class SchoolCreateForm(forms.ModelForm):
+    class Meta:
+        model = School
+        fields = ['name', 'address', 'city', 'state', 'zip_code', 'country']
+#for individuals users 
+
 class UpdateProfileForm(forms.ModelForm):
+    school = forms.ModelChoiceField(
+        queryset=School.objects.all(),
+        widget=SchoolWidget,
+        label="Search School by Name or Zip Code"
+    )
     class Meta:
         model = Profile
         fields = ['background', 'avatar', 'phone', 'email', 'bio', 'grade', 'school', 'skills', 'has_applied']
@@ -101,6 +120,7 @@ class UpdateProfileForm(forms.ModelForm):
             self.fields['skills'].initial = initial_skills
         for field in self.fields.values():
             field.required = False
+            
 #for organization users
 
 
