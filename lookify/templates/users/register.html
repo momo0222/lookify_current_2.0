@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Register Page {% endblock title%}
+{% block title %} Register Page {% endblock title %}
 {% block content %}
 <section class="pxp-hero vh-100" style="background-color: var(--pxpMainColorLight);">
     <div class="row align-items-center pxp-sign-hero-container">
@@ -18,51 +18,77 @@
                             <form class="mt-4" method="POST">
                                 {% csrf_token %}
                                
-                                 <div class="form-floating mb-3">
+                                <div class="form-floating mb-3">
                                     {% for choice in form.user_type %}
-                                      <div class="form-check form-check-inline">
-                                        {{choice}}
-                                        <label class="form-check-label" for="{{ choice.auto_id }}"></label>
-                                      </div>
+                                        <div class="form-check form-check-inline">
+                                            {{ choice }}
+                                            <label class="form-check-label" for="{{ choice.auto_id }}"></label>
+                                        </div>
                                     {% endfor %}
-                                      
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="pxp-signup-page-email" name = "first_name" placeholder="First name">
-                                    <label for="pxp-signup-page-email">First Name</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="pxp-signup-page-email" name = "last_name" placeholder="Last name">
-                                    <label for="pxp-signup-page-email">Last Name</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="pxp-signup-page-email" name = "username" placeholder="Username" hx-get="{% url 'check-username' %}" hx-target="#username-check" hx-trigger="keyup">
-                                    <label for="pxp-signup-page-email">Username</label>
-                                    <div id="username-check">
-                        
-                                    </div>
                                 </div>
                                 
-                            
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="pxp-signup-page-email" name ="email" placeholder="Email address"hx-get="{% url 'check-email' %}" hx-target="#email-check" hx-trigger="keyup">
+                                    <input type="text" class="form-control{% if form.first_name.errors %} is-invalid{% endif %}" id="pxp-signup-page-first-name" name="first_name" placeholder="First name" value="{% if form.is_bound %}{{ form.first_name.value }}{% endif %}">
+                                    <label for="pxp-signup-page-first-name">First Name</label>
+                                    {% if form.first_name.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.first_name.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control{% if form.last_name.errors %} is-invalid{% endif %}" id="pxp-signup-page-last-name" name="last_name" placeholder="Last name" value="{% if form.is_bound %}{{ form.last_name.value }}{% endif %}">
+                                    <label for="pxp-signup-page-last-name">Last Name</label>
+                                    {% if form.last_name.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.last_name.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control{% if form.username.errors %} is-invalid{% endif %}" id="pxp-signup-page-username" name="username" placeholder="Username" value="{% if form.is_bound %}{{ form.username.value }}{% endif %}" hx-get="{% url 'check-username' %}" hx-target="#username-check" hx-trigger="keyup">
+                                    <label for="pxp-signup-page-username">Username</label>
+                                    {% if form.username.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.username.errors }}
+                                        </div>
+                                    {% endif %}
+                                    <div id="username-check"></div>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control{% if form.email.errors %} is-invalid{% endif %}" id="pxp-signup-page-email" name="email" placeholder="Email address" value="{% if form.is_bound %}{{ form.email.value }}{% endif %}" hx-get="{% url 'check-email' %}" hx-target="#email-check" hx-trigger="keyup">
                                     <label for="pxp-signup-page-email">Email address</label>
-                                    
-                                    <div id="email-check">
-                        
-                                    </div>
+                                    {% if form.email.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.email.errors }}
+                                        </div>
+                                    {% endif %}
+                                    <div id="email-check"></div>
                                 </div>
                                 
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="pxp-signup-page-password" name="password1" placeholder="Create password">
-                                    <label for="pxp-signup-page-password">Create password</label>
-                                    
+                                    <input type="password" class="form-control{% if form.password1.errors %} is-invalid{% endif %}" id="pxp-signup-page-password1" name="password1" placeholder="Create password">
+                                    <label for="pxp-signup-page-password1">Create password</label>
+                                    {% if form.password1.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.password1.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
+                                
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="pxp-signup-page-password" name="password2" placeholder="Confirm password">
-                                    <label for="pxp-signup-page-password">Confirm password</label>
-                                    
+                                    <input type="password" class="form-control{% if form.password2.errors %} is-invalid{% endif %}" id="pxp-signup-page-password2" name="password2" placeholder="Confirm password">
+                                    <label for="pxp-signup-page-password2">Confirm password</label>
+                                    {% if form.password2.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.password2.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
+                                
                                 <button type="submit" class="btn rounded-pill pxp-sign-hero-form-cta">Continue</button>
                                 <div class="mt-4 text-center pxp-sign-hero-form-small">
                                     Already have an account? <a href="{% url 'login' %}">Sign in</a>
@@ -75,6 +101,4 @@
         </div>
     </div>
 </section>
-
-
 {% endblock content %}

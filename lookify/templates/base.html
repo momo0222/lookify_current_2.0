@@ -204,7 +204,7 @@
             {% for message in messages %}
                 alertify.set('notifier', 'position','top-center');
                 {% if message.tags == 'success' %}
-                alertify.success('{{ message }}');
+                    alertify.success('{{ message }}');
                 {% elif message.tags == 'error' %}
                     alertify.error('{{ message }}');
                 {% endif %}

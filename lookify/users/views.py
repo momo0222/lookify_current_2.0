@@ -108,9 +108,11 @@ class RegisterView(View):
     initial = {'key': 'value'}
     template_name = 'users/register.html'
     def form_invalid(self, form):
+        # Add form errors to messages
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(self.request, f" {error}")
+                
         return super().form_invalid(form)
 
     def dispatch(self, request, *args, **kwargs):
@@ -152,7 +154,7 @@ class RegisterView(View):
                     return redirect("update-org-profile")
 
         else:
-            print(form.errors)
+            pass
         return render(request, self.template_name, {'form': form})
 
 
@@ -165,6 +167,7 @@ class CustomLoginView(LoginView):
         for field, errors in form.errors.items():
             for error in errors:
                 messages.error(self.request, f" {error}")
+                
         return super().form_invalid(form)
 
     def form_valid(self, form):
