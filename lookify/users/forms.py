@@ -76,6 +76,21 @@ class LoginForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ['username', 'password', 'remember_me']
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+
+        
+        # Check if input is an email
+        if '@' in username:
+            user_exists = User.objects.filter(email=username).exists()
+        else:
+            user_exists = User.objects.filter(username=username).exists()
+        
+        if not user_exists:
+            raise forms.ValidationError("Username or Email does not exist")
+        
+        return username
+        
 
 
 class UpdateUserForm(forms.ModelForm):

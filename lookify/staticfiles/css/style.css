@@ -48,7 +48,7 @@ Author URI: https://pixelprime.co/
  * 1.0 - General
  */
 
-:root {
+ :root {
   --pxpHoverTransition: 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
   --pxpHoverOpacity: 0.6;
   --pxpTextColor: #17171d;
@@ -106,6 +106,9 @@ a:hover {
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+}
+.pxp-nav-trigger{
+  display: none;
 }
 .pxp-cover-bottom {
   background-position: center bottom;
@@ -5956,6 +5959,9 @@ ol.pxp-comments-list {
   }
 }
 @media screen and (max-width: 1199px) {
+  .pxp-nav-trigger{
+    display: block;
+  }
   .pxp-hero-right-bg-card {
     display: none;
   }

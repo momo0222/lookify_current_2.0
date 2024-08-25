@@ -20,16 +20,24 @@
                                 <form class="mt-4" method = "POST">
                                     {% csrf_token %}
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" name="username" placeholder="Username/Email">
-                                        <label for="pxp-signin-page-email">Username or Email</label>
-                                        
-                                        <span class="fa fa-envelope-o"></span>
+                                        <input class="form-control{% if form.username.errors %} is-invalid{% endif %}" id="pxp-signup-page-email" name="username" placeholder="Username/Email" value="{% if form.is_bound %}{{ form.username.value }}{% endif %}" >
+                                        <label for="pxp-signup-page-email">Username or Email</label>
+                                        {% if form.username.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ form.username.errors }}
+                                            </div>
+                                        {% endif %}
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control" name="password" placeholder="Password">
+                                        <input type="password" class="form-control{% if form.password.errors %} is-invalid{% endif %}"name="password" placeholder="Password">
                                         <label for="pxp-signin-page-password">Password</label>
                                         
                                         <span class="fa fa-lock"></span>
+                                        {% if form.password.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.password.errors }}
+                                        </div>
+                                    {% endif %}
                                     </div>
 
                                     <button name="login" id="login" class="btn rounded-pill pxp-sign-hero-form-cta">Continue</button>

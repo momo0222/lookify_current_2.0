@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         {% load static %}
-        <link rel="shortcut icon" href="/static//static/images/favicon.png" type="image/x-icon">
+        <link rel="shortcut icon" href="/static/images/favicon.png" type="image/x-icon">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,10 +30,43 @@
         <header class="pxp-header fixed-top pxp-no-bg">
             <div class="pxp-container">
                 <div class="pxp-header-container">
-                    <div class="pxp-logo">
-                        <a href="{% url "users-home" %}" class="pxp-animate"><span style="color: var(--pxpMainColor)">L</span>ookify</a>
+                    
+                    
+                    <div class="pxp-logo-nav-container">
+                        <div class="pxp-logo">
+                            <a href="{% url "users-home" %}" class="pxp-animate"><span style="color: var(--pxpMainColor)">L</span>ookify</a>
+                        </div>
+                        <div class="pxp-nav-trigger navbar">
+                            <a role="button" data-bs-toggle="offcanvas" data-bs-target="#pxpMobileNav" aria-controls="pxpMobileNav">
+                                <div class="pxp-line-1"></div>
+                                <div class="pxp-line-2"></div>
+                                <div class="pxp-line-3"></div>
+                            </a>
+                            <div class="offcanvas offcanvas-start pxp-nav-mobile-container" tabindex="-1" id="pxpMobileNav">
+                                <div class="offcanvas-header">
+                                    <div class="pxp-logo">
+                                        <a href="{% url "users-home" %}" class="pxp-animate"><span style="color: var(--pxpMainColor)">L</span>ookify</a>
+                                    </div>
+                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                    <nav class="pxp-nav-mobile">
+                                        <ul class="navbar-nav justify-content-end flex-grow-1">
+                                            <li class="nav-item dropdown">
+                                                <a href="{% url 'opportunity-home' %}" class="nav-link ">Opportunities</a>
+                                                
+                                            </li>
+                                            <li class="nav-item dropdown">
+                                                <a href="{% url 'org-home' %}" class="nav-link">Organizations</a>
+                                            
+                                            </li>
+                                            
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                     <div class="pxp-header-right">
 
                     <nav class="pxp-nav dropdown-hover-all d-none d-xl-block">

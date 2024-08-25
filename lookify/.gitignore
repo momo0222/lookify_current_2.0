@@ -5,4 +5,8 @@ generate_token.py
 # Ignore SQLite database file
 db.sqlite3
 static
+#private info
+.env
+debug.log
+
 

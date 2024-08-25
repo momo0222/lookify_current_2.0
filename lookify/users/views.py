@@ -166,7 +166,7 @@ class CustomLoginView(LoginView):
         # Add form errors to messages
         for field, errors in form.errors.items():
             for error in errors:
-                messages.error(self.request, f" {error}")
+                pass
                 
         return super().form_invalid(form)
 
